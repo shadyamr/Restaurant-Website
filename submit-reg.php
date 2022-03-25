@@ -8,7 +8,7 @@
         <?php   
             require 'connect.php';
             $username = $_POST["user"];
-            $password = $_POST["pass"];
+            $password = $_POST["password"];
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $emailad = $_POST["email"];
 
@@ -29,7 +29,7 @@
 
             if(!filter_var($email, FILTER_VALIDATE_EMAIL) == false)
             {
-                if($_POST["pass"] == $_POST["confirmpass"])
+                if($_POST["password"] == $_POST["confirmpass"])
                 {
                     if(!$conn)
                     {

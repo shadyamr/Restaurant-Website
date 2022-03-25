@@ -9,7 +9,7 @@
             session_start();  
             require 'connect.php';
             $username = $_POST["user"];
-            $password = $_POST["pass"];
+            $password = $_POST["password"];
             if(!$conn)
             {
                 die("Connection failed!: ". mysqli_connect_error());
