@@ -1,22 +1,70 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="CairoGRND Restaurant">
-    <title>CairoGRND Restaurant - Login</title>
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png">
-    <link rel="manifest" href="./img/site.webmanifest">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
+<?php include 'config/html_head.php'; ?>
 <body class="text-center">
-    <form class="form-signin" id="login" action="submit-login.php" method="POST">
-        <img class="mb-4" src="./img/grnd.png" alt="" width="72" height="72">
+    <form class="form-signin" id="login" action="login" method="POST">
+        <img class="mb-4" src="./assets/img/grnd.png" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">GRND - Login</h1>
+        <?php
+            session_start();  
+            require 'config/connect.php';
+            if($_POST)
+            {
+                $username = $_POST["user"];
+                $password = $_POST["password"];
+                if(!$conn)
+                {
+                    die("Connection failed!: ". mysqli_connect_error());
+                }
+                else
+                {
+                    $user_check_query = "SELECT * FROM users WHERE Username='$username'";
+                    $result = mysqli_query($conn, $user_check_query);
+                    $numRows = mysqli_num_rows($result);
+                    if($numRows == 1)
+                    {
+                        $row = mysqli_fetch_assoc($result);
+                        if(password_verify($password, $row['Pass']))
+                        {
+                            echo "
+                            <div class='alert alert-success' role='alert'>
+                                <strong>Login Successful!</strong><br><br>You'll be redirected in five seconds.
+                            </div>
+                            <script>
+                                setTimeout(function()
+                                    {
+                                        window.location.href = 'home';
+                                    }, 5000);
+                            </script>
+                            ";
+                            header("refresh:5; url=home");
+                        }
+                        else
+                        {
+                            echo "
+                            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                <strong>Invalid Password!</strong><br><br>Try again.
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                </button>
+                            </div>
+                            ";
+                        }
+                    }
+                    else
+                    {
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Login Failed!</strong><br><br>User doesn't exist.
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        ";
+                    }
+                }
+            }
+        ?>
         <label for="user" class="sr-only">Username</label>
         <input type="text" id="user" name="user" class="form-control" placeholder="Username" required autofocus>
         <label for="password" class="sr-only">Password</label>
@@ -28,7 +76,8 @@
         </label>
       </div>-->
         <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return check()" name="submit">Login</button>
-        <p class="mt-5 mb-3 text-muted">Copyright &copy; 2022 Cairo GRND Restaurant</p>
+        <p class="mt-4 text-muted"><a href="register">Don't have an account yet? Register!</a></p>
+        <p class="mt-4 mb-3 text-muted">Copyright &copy; 2022 Cairo GRND Restaurant</p>
     </form>
     <script>
         function check() {
@@ -44,6 +93,13 @@
                 return false;
             }
         }
+
+        if (window.history.replaceState)
+        {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        
+        document.title = "CairoGRND Restaurant | Login";
     </script>
 </body>
 </html>
