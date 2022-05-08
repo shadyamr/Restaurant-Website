@@ -2,13 +2,16 @@
 <html>
 <?php include 'config/html_head.php'; ?>
 <body class="text-center">
-    <form class="form-signin" id="register" action="register" method="POST">
-        <img class="mb-4" src="./assets/img/grnd.png" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">GRND - Register</h1>
-        <?php
+    <form id="register" action="register" method="POST">
+        <div class="container">
+            <img class="mb-4" src="./assets/img/grnd.png" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">GRND - Register</h1>
+            <?php
         require 'config/connect.php';
         if($_POST)
         {
+            $firstname = $_POST["fname"];
+            $lastname = $_POST["lname"];
             $username = $_POST["user"];
             $password = $_POST["password"];
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
@@ -45,7 +48,7 @@
                     if (!$conn) {
                         die("Connection failed!: " . mysqli_connect_error());
                     } else {
-                        $query = "INSERT INTO users (ID, Username, Email, Pass) VALUES (NULL, '$username', '$emailad','$hashed_password')";
+                        $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0)";
                         if ($conn->query($query) === TRUE):
         ?>
             <div class="alert alert-success" role="alert">
@@ -88,27 +91,92 @@
                 ";
             }
         }
-        ?>
-        <label for="user" class="sr-only">Username</label>
-        <input type="text" id="user" name="user" class="form-control" placeholder="Username" required autofocus>
-        <label for="email" class="sr-only">Email</label>
-        <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        <label for="confirmpass" class="sr-only">Confirm Password</label>
-        <input type="password" id="password" name="confirmpass" class="form-control" placeholder="Confirm Password" required>
-        <div class="sep"></div>
-        <!--<div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div>-->
-        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return check()" name="submit">Register</button>
-        <p class="mt-4 text-muted"><a href="login">Already have an account? Login!</a></p>
-        <p class="mt-4 mb-3 text-muted">Copyright &copy; 2022 Cairo GRND Restaurant</p>
+?>
+            <div class="row row-cols-lg-auto g-3 align-items-center">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label for="user" class="sr-only">Username</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" id="user" name="user" class="form-control" placeholder="Username" required autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fname" class="sr-only">First Name</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                            <input type="text" id="fname" name="fname" class="form-control" placeholder="First Name" required autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lname" class="sr-only">Last Name</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                            <input type="text" id="lname" name="lname" class="form-control" placeholder="Last Name" required autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label for="email" class="sr-only">Email</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="sr-only">Password</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                            <span class="input-group-text"><i class="fa-solid fa-eye" onclick="showpass()"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmpass" class="sr-only">Confirm Password</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                            <input type="password" id="confirmpass" name="confirmpass" class="form-control" placeholder="Confirm Password" required>
+                            <span class="input-group-text"><i class="fa-solid fa-eye" onclick="showconfirmpass()"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>By creating an account you agree to the <a href="#">privacy policy</a> and to the <a href="#">terms of use</a></p>
+            <button class="btn btn-primary d-grid gap-2 col-6 mx-auto" type="submit" onclick="return check()" name="submit">Create your account</button>
+            <p class="mt-4 text-muted"><a href="login">Already have an account? Login!</a></p>
+            <p class="mt-4 mb-3 text-muted">Copyright &copy; 2022 Cairo GRND Restaurant</p>
+        </div>
     </form>
     <script>
-        function check() {
+        function showpass() 
+        {
+            var x = document.getElementById("password");
+            if (x.type === "password")
+            {
+                x.type = "text";
+            }
+            else
+            {
+                x.type = "password";
+            }
+        }
+
+        function showconfirmpass() 
+        {
+            var y = document.getElementById("confirmpass");
+            if (y.type === "password")
+            {
+                y.type = "text";
+            }
+            else
+            {
+                y.type = "password";
+            }
+        }
+
+        function check() 
+        {
             var no_name = document.getElementById("user").value;
             if (no_name == "") {
                 alert("Please fill your name!");
