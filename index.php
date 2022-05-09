@@ -1,9 +1,5 @@
-<html>
-<body>
-<?php 
-session_start();
-/* Complete */
+<?php
+
+header("location: home");
+
 ?>
-<h1>Welcome</h1>
-</body>
-</html>
