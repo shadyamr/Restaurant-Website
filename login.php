@@ -68,14 +68,14 @@
             ?>
             <div class="row row-cols-lg-auto g-3 align-items-center">
                 <div class="col-sm">
-                    <div class="form-floating">
+                    <div class="form-group">
                         <label for="user" class="sr-only">Email</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
                             <input type="text" id="user" name="user" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="atsign" required autofocus>
                         </div>
                     </div>
-                    <div class="form-floating">
+                    <div class="form-group">
                         <label for="password" class="sr-only">Password</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>

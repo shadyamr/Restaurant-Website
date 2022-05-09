@@ -2,7 +2,7 @@
 <html>
 <?php include 'config/html_head.php'; ?>
 <body class="text-center">
-    <form class="form-account" id="register" action="register" method="POST">
+    <form class="form-account" id="register" action="register" method="POST" enctype="multipart/form-data">
         <div class="container align-items-center">
             <img class="mb-4" src="./assets/img/grnd.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GRND - Register</h1>
@@ -16,6 +16,7 @@
             $password = $_POST["password"];
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $emailad = $_POST["email"];
+            $nationalid = $_POST["nationalid"];
 
             $email = $_POST["email"];
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
@@ -48,7 +49,7 @@
                     if (!$conn) {
                         die("Connection failed!: " . mysqli_connect_error());
                     } else {
-                        $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0)";
+                        $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0, '$nationalid')";
                         if ($conn->query($query) === TRUE):
         ?>
             <div class="alert alert-success" role="alert">
@@ -101,7 +102,7 @@
                             <input type="text" id="user" name="user" class="form-control" placeholder="Username" required autofocus>
                         </div>
                     </div>
-                    <div class="form-floating">
+                    <div class="form-group">
                         <label for="fname" class="sr-only">First Name</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fas fa-signature"></i></span>
@@ -113,6 +114,13 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fas fa-signature"></i></span>
                             <input type="text" id="lname" name="lname" class="form-control" placeholder="Last Name" required autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationalid" class="sr-only">National ID</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            <input type="text" id="nationalid" name="nationalid" class="form-control" placeholder="National ID" required autofocus>
                         </div>
                     </div>
                 </div>
@@ -138,6 +146,12 @@
                             <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
                             <input type="password" id="confirmpass" name="confirmpass" class="form-control" placeholder="Confirm Password" required>
                             <span class="input-group-text"><i class="fa-solid fa-eye" onclick="showconfirmpass()"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            <input class="form-control" type="file" id="nationalid_image">
                         </div>
                     </div>
                 </div>
