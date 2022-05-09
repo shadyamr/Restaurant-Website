@@ -45,9 +45,7 @@
                                 echo "
                                 <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                                     <strong>Invalid Password!</strong><br><br>Try again.
-                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                        <span aria-hidden='true'>&times;</span>
-                                    </button>
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                 </div>
                                 ";
                             }
@@ -57,9 +55,7 @@
                             echo "
                             <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                                 <strong>Login Failed!</strong><br><br>User doesn't exist.
-                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                    <span aria-hidden='true'>&times;</span>
-                                </button>
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                             </div>
                             ";
                         }
@@ -72,7 +68,7 @@
                         <label for="user" class="sr-only">Email</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-                            <input type="text" id="user" name="user" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="atsign" required autofocus>
+                            <input type="email" id="user" name="user" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="atsign" required autofocus>
                         </div>
                     </div>
                     <div class="form-group">

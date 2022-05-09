@@ -65,8 +65,9 @@
         <?php
                     else:
         ?>
-            <div class="alert alert-danger" role="alert">
-                <strong>Error!</strong> <?php echo $query . "<br><br>" . $conn->error; ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong><br><br> MySQL Error! Contact website administrator.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php
                         endif;
@@ -75,9 +76,7 @@
                     echo "
                     <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                         <strong>Registration Incomplete!</strong><br><br>Password did not match.
-                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>
                     ";
                 }
@@ -85,9 +84,7 @@
                 echo "
                 <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                     <strong>Registration Incomplete!</strong><br><br>Email is not valid.
-                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                        <span aria-hidden='true'>&times;</span>
-                    </button>
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                 </div>
                 ";
             }
