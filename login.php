@@ -2,7 +2,7 @@
 <html>
 <?php include 'config/html_head.php'; ?>
 <body class="text-center">
-    <form id="login" action="login" method="POST">
+    <form class="form-account" id="login" action="login" method="POST">
         <div class="container">
             <img class="mb-4" src="./assets/img/grnd.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GRND - Login</h1>
@@ -68,14 +68,14 @@
             ?>
             <div class="row row-cols-lg-auto g-3 align-items-center">
                 <div class="col-sm">
-                    <div class="form-group">
+                    <div class="form-floating">
                         <label for="user" class="sr-only">Email</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
                             <input type="text" id="user" name="user" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="atsign" required autofocus>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-floating">
                         <label for="password" class="sr-only">Password</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>

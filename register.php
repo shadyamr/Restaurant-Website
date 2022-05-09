@@ -2,8 +2,8 @@
 <html>
 <?php include 'config/html_head.php'; ?>
 <body class="text-center">
-    <form id="register" action="register" method="POST">
-        <div class="container">
+    <form class="form-account" id="register" action="register" method="POST">
+        <div class="container align-items-center">
             <img class="mb-4" src="./assets/img/grnd.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GRND - Register</h1>
             <?php
@@ -101,7 +101,7 @@
                             <input type="text" id="user" name="user" class="form-control" placeholder="Username" required autofocus>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-floating">
                         <label for="fname" class="sr-only">First Name</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fas fa-signature"></i></span>
