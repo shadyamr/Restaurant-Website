@@ -1,0 +1,78 @@
+<?php
+    session_start();
+    require 'main/connect.php';
+    if (!$conn) 
+    {
+        die("Connection failed!: " . mysqli_connect_error());
+    }
+
+    $ssn_email = $_SESSION["email"];
+    $user_check_query = "SELECT * FROM users WHERE Email='$ssn_email'";
+    $result = mysqli_query($conn, $user_check_query);
+    $numRows = mysqli_num_rows($result);
+    if ($numRows == 1) 
+    {
+        $row = mysqli_fetch_assoc($result);
+    }
+
+    if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
+    {
+        header("location: login");
+        exit;
+    }
+    /*else if(!$row["Role"] == 3)
+    {
+        header("location: home");
+        exit;
+    }*/
+?>
+<!DOCTYPE html>
+<html>
+    <?php include 'main/html_head.php'; ?>
+    <body>
+        <?php
+            if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true):
+                header("location: login");
+                exit;
+
+            elseif(!$row["Role"] == 2):
+        ?>
+            <div class="container text-center">
+                <div class="row justify-content-md-center">
+                    <div class="col-sm-auto">
+                        <img src="./assets/img/grnd.png"><h1>CairoGRND</h1>
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading text-center"><i class="fa-solid fa-triangle-exclamation"></i> Error!</h4>
+                            <p class="mb-0"><strong>Access Denied!</strong> You will be redirected back to the homepage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
+                header("refresh:5; url=home");
+                echo "<script>
+                setTimeout(function()
+                    {
+                        window.location.href = 'home';
+                    }, 5000);
+                </script>";
+                exit;
+            else:
+        ?>
+            <div class="container text-center">
+                <div class="row justify-content-md-center">
+                    <div class="col-sm-auto">
+                        <img src="./assets/img/grnd.png"><h1>CairoGRND</h1>
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading text-center"><i class="fa-solid fa-circle-check"></i> QC Portal</h4>
+                            <p class="mb-0">
+                                <strong>Maintenance!</strong> Come back later.<br>
+                                <a href="home">Click here to return back to homepage!</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </body>
+</html>
