@@ -1,4 +1,10 @@
 # restaurant-website
-To be done: Sessions in login and register.
-
-Another TBD: Optimize the login and register by combining them into one page without having to use a reference (login.php > submit-login.php = login.php).
+To be done
+* National ID and files upload
+* Quality control system
+* Waiter system
+* Admin system
+* Orders system ft. categories, meals, additions, and customize.
+* Cart system
+* Rating system 
+* Logging system
