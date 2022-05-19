@@ -1,11 +1,28 @@
 <?php
     session_start();
     $product_key=array();
-    session_destroy();
 
     if(filter_input(INPUT_POST,'add_to_cart')){
         if(isset($_SESSION['shopping_cart'])){
+            $count=count($_SESSION['shopping_cart']);
 
+            $product_id=array_column($_SESSION['shopping_cart'],'id');
+
+            if(!in_array(filter_input(INPUT_GET,'id'),$product_id)){
+                $_SESSION['shopping_cart'][$count]=array(
+                'id' => filter_input(INPUT_GET,'id'),
+                'name' => filter_input(INPUT_POST,'name'),
+                'price' => filter_input(INPUT_POST,'price'),
+                'quantity' => filter_input(INPUT_POST,'quantity'),
+                );
+            }
+            else{
+                for($i = 0 ; $i < count($product_id) ; $i++){
+                    if($product_id[$i] == filter_input(INPUT_GET , 'id')){
+                        $_SESSION['shopping_cart'][$i]['quantity'] += filter_input(INPUT_POST,'quantity');
+                    }
+                }
+            }
         }else{
             $_SESSION['shopping_cart'][0]=array(
                 'id' => filter_input(INPUT_GET,'id'),
@@ -15,6 +32,16 @@
             );
         }
     }
+
+    if(filter_input(INPUT_GET,'action') == 'delete'){
+        foreach($_SESSION['shopping_cart'] as $product_key => $products){
+            if($products['id'] == filter_input(INPUT_GET,'id')){
+                unset($_SESSION['shopping_cart'][$product_key]);
+            }
+        }
+        $_SESSION['shopping_cart'] = array_values($_SESSION['shopping_cart']);
+    }
+
     pre($_SESSION);
 
     function pre($array){
@@ -65,13 +92,63 @@
         }
 
     }
-
-
     ?>
+    <div style="clear:both"></div> 
+    <br />
+    <div class="table-responsive">
+        <table class="table">
+            <tr><th colspan="5"><h3>Order Details</h3></th></tr>
+            <tr>
+                <th width="40%">Product Name</th>
+                <th width="10%">Quantity</th>
+                <th width="20%">Price</th>
+                <th width="15%">Total</th>   
+                <th width="5%">Action</th>
+            </tr>
+            <?php
+                if(!empty($_SESSION['shopping_cart'])){
+                    $total=0;
+
+                    foreach($_SESSION['shopping_cart'] as $product_key => $products);
+                }
+            ?>
+            <tr>
+                <td><?php echo $products['name']; ?></td>
+                <td><?php echo $products['quantity']; ?></td>
+                <td><?php echo $products['price']; ?></td>
+                <td><?php echo number_format($products['quantity'] * $products['price'],2); ?></td>
+                <td><a href="addtocart.css?action=delete&id=<?php echo $products['id']; ?>">
+                        <div class="btn-danger">Remove</div>
+                    </a>
+                </td>
+            </tr>
+            <?php
+                $total += $products['quantity'] * $products['price'];
+            ?>
+            <tr>
+                <td colspan="3" align="right">total</td>
+                <td align="right"><?php echo number_format($total,2); ?> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <?php
+                        if(isset($_SESSION['shopping_cart'])):
+                        if(count($_SESSION['shopping_cart'])>0):
+                    ?>
+                    <a href="#" class="button">Checkout</a>
+                    <?php endif;endif; ?>
+                </td>
+            </tr>
+        </table>
     </div>
 
 </body>
 </html>
+
+
+
+
 
 
 
