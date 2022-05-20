@@ -4,8 +4,9 @@
 
     if(filter_input(INPUT_POST,'add_to_cart')){
         if(isset($_SESSION['shopping_cart'])){
+            //keep track of how many products are in the shopping cart
             $count=count($_SESSION['shopping_cart']);
-
+            //create sequantial array for matchiing array to product id's
             $product_id=array_column($_SESSION['shopping_cart'],'id');
 
             if(!in_array(filter_input(INPUT_GET,'id'),$product_id)){
@@ -16,14 +17,17 @@
                 'quantity' => filter_input(INPUT_POST,'quantity'),
                 );
             }
-            else{
+            else{//product already exists, increase quantity
+                //match array key to id of the product being added to the cart
                 for($i = 0 ; $i < count($product_id) ; $i++){
+                    //add item quantity to the existing product in the array
                     if($product_id[$i] == filter_input(INPUT_GET , 'id')){
                         $_SESSION['shopping_cart'][$i]['quantity'] += filter_input(INPUT_POST,'quantity');
                     }
                 }
             }
-        }else{
+        }else{//if shopping cart doqsn't exist, create first product with array key 0
+            //create array with submitted form data
             $_SESSION['shopping_cart'][0]=array(
                 'id' => filter_input(INPUT_GET,'id'),
                 'name' => filter_input(INPUT_POST,'name'),
@@ -92,7 +96,8 @@
         }
 
     }
-    ?>
+    ?> 
+    <?php //order details?>
     <div style="clear:both"></div> 
     <br />
     <?php if(!count($_SESSION['shopping_cart']) == 0):?>
@@ -107,11 +112,11 @@
                 <th width="5%">Action</th>
             </tr>
             <?php
-                if(!empty($_SESSION['shopping_cart'])){
+                if(!empty($_SESSION['shopping_cart'])):
                     $total=0;
 
-                    foreach($_SESSION['shopping_cart'] as $product_key => $products);
-                }
+                    foreach($_SESSION['shopping_cart'] as $product_key => $products):
+                
             ?>
             <tr>
                 <td><?php echo $products['name']; ?></td>
@@ -125,7 +130,8 @@
             </tr>
             <?php
                 $total += $products['quantity'] * $products['price'];
-            ?>
+                endforeach;
+            ?>  
             <tr>
                 <td colspan="3" align="right">total</td>
                 <td align="right"><?php echo number_format($total,2); ?> </td>
@@ -141,6 +147,7 @@
                     <?php endif;endif; ?>
                 </td>
             </tr>
+            <?php endif;?>
         </table>
     </div>
     <?php endif;?>
