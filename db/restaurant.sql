@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2022 at 08:35 PM
+-- Generation Time: May 20, 2022 at 10:07 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -65,7 +65,7 @@ INSERT INTO `products` (`id`, `name`, `description`, `image`, `price`) VALUES
 (1, 'Burger', 'Chargrilled premium 100% beef, topped with American cheese.', 'burger.png', 82),
 (2, 'Pizza', 'Thin-crust pizza topped with chicken and mushrooms.', 'pizza.png', 60),
 (3, 'Pasta', 'Italian Pasta covered in red sauce and topped with fried chicken & cheese.', 'pasta.png', 50),
-(4, 'Kebda', 'Alexandrian Kebda topped with tahini sauce and chopped peppers in ficelle bread.', 'kebda.png', 214);
+(4, 'Kebda', 'Alexandrian Kebda topped with tahini sauce and chopped peppers in ficelle bread.', 'kebda.png', 20);
 
 -- --------------------------------------------------------
 
