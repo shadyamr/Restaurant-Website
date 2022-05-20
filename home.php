@@ -1,132 +1,257 @@
 <?php
     session_start();
     require 'main/connect.php';
-    if (!$conn) 
-    {
-        die("Connection failed!: " . mysqli_connect_error());
-    }
-
+    $product_key = array();
     if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
     {
         header("location: login");
         exit;
     }
 
-    $ssn_email = $_SESSION["email"];
-    $user_check_query = "SELECT * FROM users WHERE Email='$ssn_email'";
-    $result = mysqli_query($conn, $user_check_query);
-    $numRows = mysqli_num_rows($result);
-    if ($numRows == 1) 
+    if(filter_input(INPUT_POST,'add_to_cart'))
     {
-        $row = mysqli_fetch_assoc($result);
-    }
+        if(isset($_SESSION['shopping_cart']))
+        {
+            //keep track of how many products are in the shopping cart
+            $count=count($_SESSION['shopping_cart']);
+            //create sequantial array for matchiing array to product id's
+            $product_id=array_column($_SESSION['shopping_cart'],'id');
 
-    function account_type($type)
-    {
-        if($type == 1)
-        {
-            echo "Waiter";
-        }
-        else if($type == 2)
-        {
-            echo "Quality Control";
-        }
-        else if($type == 3)
-        {
-            echo "Administrator";
+            if(!in_array(filter_input(INPUT_GET,'id'),$product_id))
+            {
+                $_SESSION['shopping_cart'][$count]=array(
+                'id' => filter_input(INPUT_GET,'id'),
+                'name' => filter_input(INPUT_POST,'name'),
+                'description' => filter_input(INPUT_POST,'description'),
+                'price' => filter_input(INPUT_POST,'price'),
+                'quantity' => filter_input(INPUT_POST,'quantity'),
+                );
+            }
+            else
+            {//product already exists, increase quantity
+                //match array key to id of the product being added to the cart
+                for($i = 0 ; $i < count($product_id) ; $i++)
+                {
+                    //add item quantity to the existing product in the array
+                    if($product_id[$i] == filter_input(INPUT_GET , 'id'))
+                    {
+                        $_SESSION['shopping_cart'][$i]['quantity'] += filter_input(INPUT_POST,'quantity');
+                    }
+                }
+            }
         }
         else
-        {
-            echo "User";
+        {//if shopping cart doqsn't exist, create first product with array key 0
+            //create array with submitted form data
+            $_SESSION['shopping_cart'][0]=array(
+                'id' => filter_input(INPUT_GET,'id'),
+                'name' => filter_input(INPUT_POST,'name'),
+                'description' => filter_input(INPUT_POST,'description'),
+                'price' => filter_input(INPUT_POST,'price'),
+                'quantity' => filter_input(INPUT_POST,'quantity'),
+            );
         }
     }
 
-    function access_type($type)
+    if(filter_input(INPUT_GET,'action') == 'delete')
     {
-        if($type == 1)
+        foreach($_SESSION['shopping_cart'] as $product_key => $products)
         {
-            echo "Authorized";
+            if($products['id'] == filter_input(INPUT_GET,'id'))
+            {
+                unset($_SESSION['shopping_cart'][$product_key]);
+            }
         }
-        else
-        {
-            echo "Unauthorized";
-        }
+        $_SESSION['shopping_cart'] = array_values($_SESSION['shopping_cart']);
     }
 ?>
 <!DOCTYPE html>
 <html>
-<?php include 'main/html_head.php'; ?>
-<body>
-    <div class="container py-4">
-        <header class="pb-3 mb-4 border-bottom">
-        <a href="home" class="d-flex align-items-center text-dark text-decoration-none">
-            <img src="./assets/img/grnd.png" width="40">
-            <span class="fs-4">CairoGRND</span>
-        </a>
-        </header>
-
-        <div class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Welcome, <?php echo $_SESSION["email"]?>!</h1>
-            <p class="col-md-8"><span class="badge bg-secondary"><?php echo account_type($row["Role"]);?></span> </p>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Account Information
-            </button>
-            <a class="btn btn-danger" type="button" href="logout">Logout</a>
-        </div>
-        </div>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Account Information</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<?php include 'main/html_header.php'; ?>
+<body class="bg-light">
+    <div class="container">
+        <main>
+            <div class="py-5">
+                <span class="fs-4"><img src="./assets/img/grnd.png" width="40"> CairoGRND</span>
+                <ul class="nav nav-tabs mt-2">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Offers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">My Account</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-credit-card"></i> Wallet: EGP 0.00</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-cart-shopping"></i> My Orders</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="my-account"><i class="fa-solid fa-user"></i> Account Info</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            <div class="modal-body">
-                <div class="row row-cols-lg-auto g-3 align-items-center">
-                    <div class="col-sm">
-                        <label for="username" class="form-label"><b>Username</b></label>
-                        <input class="form-control" type="text" value="<?php echo $row["Username"];?>" aria-label="username" disabled readonly>
+
+            <div class="row g-5">
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <div class="card" style="width: 21.5rem;">
+                        <div class="card-header">
+                            <strong>Filter By:</strong>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                        <?php
+                            $categories_query = "SELECT * FROM categories ORDER BY ID ASC";
+                            $categories_result = mysqli_query($conn, $categories_query);
+                            if($categories_result)
+                            {
+                                if(mysqli_num_rows($categories_result) > 0)
+                                {
+                                    while($categories=mysqli_fetch_assoc($categories_result))
+                                    {
+                        ?>
+                            <li class="list-group-item"><?php echo $categories['Category']; ?></li>
+                        <?php
+                                    }
+                                }
+                            }?>
+                        </ul>
                     </div>
-                    <div class="col-sm">
-                        <label for="name" class="form-label"><b>Full Name</b></label>
-                        <input class="form-control" type="text" value="<?php echo $row["FirstName"] . " " . $row["LastName"];?>" aria-label="name" disabled readonly>
+                    <?php if(!count($_SESSION['shopping_cart']) == 0):?>
+                    <hr>
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span id="cart" class="text-primary">Your cart</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <?php
+                            if(!empty($_SESSION['shopping_cart'])):
+                                $total=0;
+
+                                foreach($_SESSION['shopping_cart'] as $product_key => $products):
+                            
+                        ?>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0"><?php echo $products['name']; ?> <span class="badge rounded-pill bg-secondary"><?php echo $products['quantity']; ?></span></h6>
+                                <small class="text-muted">Total: <?php echo number_format($products['quantity'] * $products['price'],2); ?></small>
+                            </div>
+                            <span class="text-muted">
+                                EGP <?php echo $products['price']; ?>
+                                <a href="home?action=delete&id=<?php echo $products['id']; ?>#cart">
+                                    <button class="btn btn-danger btn-sm">X</button>
+                                </a>
+                            </span>
+                        </li>
+                        <?php
+                            $total += $products['quantity'] * $products['price'];
+                            endforeach;
+                        ?> 
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total Amount</span>
+                            <strong>EGP <?php echo number_format($total,2); ?></strong>
+                        </li>
+                    </ul>
+
+                    <form class="card p-2">
+                        <div class="d-grid gap-2">
+                            <?php
+                                if(isset($_SESSION['shopping_cart'])):
+                                if(count($_SESSION['shopping_cart'])>0):
+                            ?>
+                            <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+                            <?php endif;endif; ?>
+                        </div><?php endif;?>
+                    </form>
+                    <?php else:?>
+                        <hr>
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Your cart</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <span class="text-muted"><i class="fa-solid fa-cart-arrow-down"></i> There are no items in your cart</span>
+                            </div>
+                        </li>
+                    </ul>
+                <?php endif;?>
+                </div>
+                <div class="col-md-7 col-lg-8">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item"><strong>Sort By:</strong></li>
+                        <li class="list-group-item">Recommended</li>
+                        <li class="list-group-item">Ratings</li>
+                        <li class="list-group-item">Newest</li>
+                        <li class="list-group-item">A to Z</li>
+                    </ul>
+                    <h4 class="mt-3">Menu</h4>
+                    <div class="row align-items-start">
+                    <?php
+                        $products_query = 'select * from products order by id ASC';
+                        $products_result = mysqli_query($conn, $products_query);
+
+                        if($products_result)
+                        {
+                            if(mysqli_num_rows($products_result)>0)
+                            {
+                                while($products=mysqli_fetch_assoc($products_result))
+                                {
+                    ?>
+                        <div class="col">
+                            <div class="mt-3 card" style="width: 18rem;">
+                                <img src="./assets/img/uploads/<?php echo $products['image']; ?>" class="card-img-top" weight="150">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $products['name']; ?> <span class="badge rounded-pill bg-info text-white">EGP <?php echo $products['price']; ?></span></h5>
+                                    <p class="card-text"><?php echo $products['description']; ?></p>
+                                    <form name="add_to_cart" method="post" action="home?action=add&id=<?php echo $products['id']; ?>#cart" onsubmit="required()">
+                                        <input type="text" id="quantity" name="quantity" class="form-control" value="1" required>
+                                        <input type="hidden" name="name" value="<?php echo $products['name']; ?>">
+                                        <input type="hidden" name="price" value="<?php echo $products['price']; ?>">
+                                        <input type="submit" name="add_to_cart" style="margin-top: 5px;" class="mt-3 btn btn-primary" value="Add to Cart">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                                }
+                            }
+
+                        }
+                    ?> 
                     </div>
                 </div>
-                <hr>
-                <div class="row row-cols-lg-auto g-3 align-items-center">
-                    <div class="col-sm">
-                        <label for="email" class="form-label"><b>Email Address</b></label>
-                        <input class="form-control" type="email" value="<?php echo $row["Email"];?>" aria-label="email" disabled readonly>
-                    </div>
-                    <div class="col-sm">
-                        <label for="nationalid" class="form-label"><b>National ID</b></label>
-                        <input class="form-control" type="text" value="<?php echo $row["National_ID"];?>" aria-label="nationalid" disabled readonly>
-                    </div>
-                </div>
-                <hr>
-                <div class="row row-cols-lg-auto g-3 align-items-center">
-                    <div class="col-sm">
-                        <label for="role" class="form-label"><b>Role</b></label>
-                        <input class="form-control" type="text" value="<?php echo account_type($row["Role"]);?>" aria-label="role" disabled readonly>
-                    </div>
-                    <div class="col-sm">
-                        <label for="access" class="form-label"><b>Access</b></label>
-                        <input class="form-control" type="text" value="<?php echo access_type($row["Access"]);?>" aria-label="access" disabled readonly>
-                    </div>
-                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            </div>
-        </div>
-        </div>
+        </main>
 
-        <footer class="pt-3 mt-4 text-muted border-top">
-            Copyright &copy; 2022 Cairo GRND Restaurant
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">Copyright &copy; 2022 Cairo GRND Restaurant</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
         </footer>
     </div>
-    </body>
+    <script>
+        function required() 
+        {
+            var disable_bypass = document.forms["add_to_cart"]["quantity"].value;
+            if (disable_bypass < 1 || disable_bypass == "")
+            {
+                alert("Please enter a number higher than 1!");
+                return false;
+            }
+        }    
+        if (window.history.replaceState)
+        {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+</body>
+
 </html>
