@@ -28,7 +28,7 @@
 ?>
 <!DOCTYPE html>
 <html>
-    <?php include 'main/html_head.php'; ?>
+    <?php include 'main/html_header_alt.php'; ?>
     <body>
         <?php
             if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true):

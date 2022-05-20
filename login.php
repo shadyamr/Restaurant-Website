@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<?php include 'main/html_head.php'; ?>
+<?php include 'main/html_header_alt.php'; ?>
 
 <body class="text-center">
     <form class="form-account" id="login" action="login" method="POST">
