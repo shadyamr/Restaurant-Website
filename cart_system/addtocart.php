@@ -78,12 +78,12 @@
                 <form method="post" action="addtocart.php?action=add&id=<?php echo $products['id']; ?>">
                     <div class="products">
                         <img src="./assets/img/uploads/<?php echo $products['image']; ?>"class="img-responsive" width="200"/>
-                        <h4 class="text-info"><?php echo $products['name']; ?></h4>
-                        <h4><?php echo $products['price']; ?></h4>
+                        <center><h4 class="text-info"><?php echo $products['name']; ?></h4>
+                        <h4><?php echo $products['price']; ?></h4></center>
                         <input type="text" name="quantity" class="form-control" value="1" />
                         <input type="hidden" name="name" value="<?php echo $products['name']; ?>" />
                         <input type="hidden" name="price" value="<?php echo $products['price']; ?>" />
-                        <input type="submit" name="add_to_cart" style="margin-top=5px;" class="btn btn-info" value="add to cart" />
+                        <center><input type="submit" name="add_to_cart" style="margin-top: 5px;" class="btn btn-info" value="add to cart" /></center>
                     </div>
                 </form>
             </div>
@@ -95,6 +95,7 @@
     ?>
     <div style="clear:both"></div> 
     <br />
+    <?php if(!count($_SESSION['shopping_cart']) == 0):?>
     <div class="table-responsive">
         <table class="table">
             <tr><th colspan="5"><h3>Order Details</h3></th></tr>
@@ -117,8 +118,8 @@
                 <td><?php echo $products['quantity']; ?></td>
                 <td><?php echo $products['price']; ?></td>
                 <td><?php echo number_format($products['quantity'] * $products['price'],2); ?></td>
-                <td><a href="addtocart.css?action=delete&id=<?php echo $products['id']; ?>">
-                        <div class="btn-danger">Remove</div>
+                <td><a href="addtocart.php?action=delete&id=<?php echo $products['id']; ?>">
+                        <div class="btn btn-danger">Remove</div>
                     </a>
                 </td>
             </tr>
@@ -136,19 +137,12 @@
                         if(isset($_SESSION['shopping_cart'])):
                         if(count($_SESSION['shopping_cart'])>0):
                     ?>
-                    <a href="#" class="button">Checkout</a>
+                    <a href="#" class="btn btn-primary">Checkout</a>
                     <?php endif;endif; ?>
                 </td>
             </tr>
         </table>
     </div>
-
+    <?php endif;?>
 </body>
 </html>
-
-
-
-
-
-
-
