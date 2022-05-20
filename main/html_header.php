@@ -14,7 +14,20 @@
     <script src="./assets/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="./assets/js/bootstrap.bundle.js"></script>
     <style>
-        .bd-placeholder-img {
+        ::selection 
+        {
+            background: #3a3a3a;
+            background-color: rgba(58, 58, 58, 0.4);
+        }
+
+        ::-moz-selection 
+        {
+            background: #3a3a3a;
+            background-color: rgba(58, 58, 58, 0.4);
+        }
+
+        .bd-placeholder-img 
+        {
             font-size: 1.125rem;
             text-anchor: middle;
             -webkit-user-select: none;
@@ -22,8 +35,10 @@
             user-select: none;
         }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
+        @media (min-width: 768px) 
+        {
+            .bd-placeholder-img-lg 
+            {
                 font-size: 3.5rem;
             }
         }
