@@ -12,7 +12,7 @@
     $numRows = mysqli_num_rows($result);
     if ($numRows == 1) 
     {
-        $row = mysqli_fetch_assoc($result);
+        $user = mysqli_fetch_assoc($result);
     }
 
     if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
@@ -20,7 +20,7 @@
         header("location: login");
         exit;
     }
-    /*else if(!$row["Role"] == 3)
+    /*else if(!$user["Role"] == 3)
     {
         header("location: home");
         exit;
@@ -35,7 +35,7 @@
                 header("location: login");
                 exit;
 
-            elseif(!$row["Role"] == 2):
+            elseif(!$user["Role"] == 2):
         ?>
             <div class="container text-center">
                 <div class="row justify-content-md-center">

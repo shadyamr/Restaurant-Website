@@ -28,8 +28,8 @@
                         $numRows = mysqli_num_rows($result);
                         if ($numRows == 1) 
                         {
-                            $row = mysqli_fetch_assoc($result);
-                            if (password_verify($password, $row['Pass'])) 
+                            $user = mysqli_fetch_assoc($result);
+                            if (password_verify($password, $user['Pass'])) 
                             {
                                 echo "
                                         <div class='alert alert-success' role='alert'>
@@ -37,8 +37,8 @@
                                         </div>
                                         ";
                                 $_SESSION["loggedin"] = true;
-                                $_SESSION["email"] = $row["Email"];
-                                if ($row["Role"] == 1) 
+                                $_SESSION["email"] = $user["Email"];
+                                if ($user["Role"] == 1) 
                                 {
                                     header("refresh:5; url=waiter");
                                     echo "<script>
@@ -48,7 +48,7 @@
                                         }, 5000);
                                     </script>";
                                 } 
-                                else if ($row["Role"] == 2) 
+                                else if ($user["Role"] == 2) 
                                 {
                                     header("refresh:5; url=quality_control");
                                     echo "<script>
@@ -58,7 +58,7 @@
                                         }, 5000);
                                     </script>";
                                 } 
-                                else if ($row["Role"] == 3) 
+                                else if ($user["Role"] == 3) 
                                 {
                                     header("refresh:5; url=admin");
                                     echo "<script>
