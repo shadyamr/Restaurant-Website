@@ -82,7 +82,7 @@
 </body>
 </html>
 
-<div id="review_modal" class="modal" tabindex="-1" role="dialog">
+<div id="review_modal" class="modal">
   	<div class="modal-dialog" role="document">
     	<div class="modal-content">
 	      	<div class="modal-header">
@@ -112,6 +112,25 @@
     	</div>
   	</div>
 </div>
+
+<style>
+.progress-label-left
+{
+    float: left;
+    margin-right: 0.5px;
+    line-height: 1px;
+}
+.progress-label-right
+{
+    float: right;
+    margin-left: 0.3px;
+    line-height: 1px;
+}
+.star-light
+{
+	color:#e9ecef;
+}
+</style>
 
 
 <!-- baa3d matdos 3ala zorar al review da 2ely hayzhr-->
@@ -301,6 +320,4 @@
             }
         })
     }
-
-
 </script>
