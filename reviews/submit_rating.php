@@ -1,24 +1,24 @@
 <?php
 
-$conn = new PDO("mysql:host=localhost;dbname=review_table", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=review_table", "root", "");
 
 if(isset($_POST["rating_data"]))
 {
 
 	$data = array(
-		':user_name'    =>	$_POST["user_name"],
-		':user_rating'  =>  $_POST["rating_data"],
-		':user_review'  =>  $_POST["user_review"],
-		':datetime'	    =>  time()
+		':user_name'		=>	$_POST["user_name"],
+		':user_rating'		=>	$_POST["rating_data"],
+		':user_review'		=>	$_POST["user_review"],
+		':datetime'		=>	time()
 	);
 
 	$query = "INSERT INTO review_table 
-    (user_name, user_rating, user_review, datetime) 
+	(user_name, user_rating, user_review, datetime) 
 	VALUES (:user_name, :user_rating, :user_review, :datetime)";
 
-	$stat = $conn->prepare($query);
+	$statement = $connect->prepare($query);
 
-	$stat->execute($data);
+	$statement->execute($data);
 
 	echo "Your Review & Rating Successfully Submitted";
 
@@ -77,7 +77,7 @@ if(isset($_POST["action"]))
 
 		$total_review++;
 
-		$total_user_rating += $row["user_rating"];
+		$total_user_rating = $total_user_rating + $row["user_rating"];
 
 	}
 
