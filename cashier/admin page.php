@@ -33,7 +33,7 @@
 					echo"<a href='Add.php'>Add User</a>";
 					echo"<a href='Delete.php'>'Delete User</a>";
                     echo"<a href='Update2.php'>Update User</a>";
-                    echo"<a href='ViewAll.php'>View All Users</a>";
+                    echo"<a href='ViewAll.php'>View All Users.</a>";
                     echo"<a href='Search.php'>Search</a>";
 				}
 				else
