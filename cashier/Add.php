@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lab07";
+$dbname = "restaurant";
 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -15,11 +15,11 @@ if(isset($_POST['Submit'])){
     if ($email == true) {
     
       } else {
-        echo("$email is not a valid email address");
+        echo("$email is not a valid e-mail address!");
       }
      if( strlen($_POST["Password"])<6)
      {
-        echo("Password Not valid");
+        echo("Password is not valid!");
      }
   
  
