@@ -9,7 +9,7 @@ include "Menu.php";
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lab07";
+$dbname = "restaurant";
 session_start();
 
 // Create connection
