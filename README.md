@@ -2,9 +2,10 @@
 To be done
 * National ID and files upload
 * Quality control system
-* Waiter system
-* Admin system
+* Waiter system (tbi)
+* Compose a Sandwich system
 * Orders system ft. categories, meals, additions, and customize.
-* Cart system
-* Rating system 
+* Rating system (tbi)
 * Logging system
+
+tbi = to be integrated
