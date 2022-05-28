@@ -7,5 +7,6 @@ To be done
 * Orders system ft. categories, meals, additions, and customize.
 * Rating system (tbi)
 * Logging system
+* NodeJS
 
 tbi = to be integrated
