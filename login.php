@@ -33,49 +33,37 @@
                             {
                                 echo "
                                         <div class='alert alert-success' role='alert'>
-                                            <strong>Login Successful!</strong><br><br>You'll be redirected in five seconds.
+                                            <strong>Login Successful!</strong>
                                         </div>
                                         ";
                                 $_SESSION["loggedin"] = true;
                                 $_SESSION["email"] = $user["Email"];
                                 if ($user["Role"] == 1) 
                                 {
-                                    header("refresh:5; url=waiter");
+                                    header("Location: waiter");
                                     echo "<script>
-                                    setTimeout(function()
-                                        {
-                                            window.location.href = 'waiter';
-                                        }, 5000);
+                                        window.location.replace('waiter');
                                     </script>";
                                 } 
                                 else if ($user["Role"] == 2) 
                                 {
-                                    header("refresh:5; url=quality_control");
+                                    header("Location: quality_control");
                                     echo "<script>
-                                    setTimeout(function()
-                                        {
-                                            window.location.href = 'quality_control';
-                                        }, 5000);
+                                        window.location.replace('quality_control');
                                     </script>";
                                 } 
                                 else if ($user["Role"] == 3) 
                                 {
-                                    header("refresh:5; url=admin");
+                                    header("Location: admin");
                                     echo "<script>
-                                    setTimeout(function()
-                                        {
-                                            window.location.href = 'admin';
-                                        }, 5000);
+                                        window.location.replace('admin');
                                     </script>";
                                 } 
                                 else 
                                 {
-                                    header("refresh:5; url=home");
+                                    header("Location: home");
                                     echo "<script>
-                                    setTimeout(function()
-                                        {
-                                            window.location.href = 'home';
-                                        }, 5000);
+                                        window.location.replace('home');
                                     </script>";
                                 }
                             }

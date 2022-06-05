@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2022 at 10:07 PM
+-- Generation Time: Jun 06, 2022 at 12:11 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -91,7 +91,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Username`, `Email`, `Pass`, `Role`, `Access`, `National_ID`, `National_ID_Image`) VALUES
-(1, 'Shady', 'Amr', 'admin', 'shady@shady.com', '$2y$10$0FWzXKHPiuLfcHMzgOWpCuRv0mTbpNwLty2q0CXN0MLXscn1ejfxy', 0, 1, 2147483647, '');
+(1, 'Shady', 'Amr', 'admin', 'shady@shady.com', '$2y$10$0FWzXKHPiuLfcHMzgOWpCuRv0mTbpNwLty2q0CXN0MLXscn1ejfxy', 0, 1, 2147483647, ''),
+(2, 'shady2', 'shady2', 'shady2', 's@s.com', '$2y$10$6VmJy1HTQqLtsWozflQMreL1x3NGr8/HttpaePEkxvOpxGNi.Zov.', 0, 0, 2141414141, ''),
+(3, 'Ahmed', 'Hossam', '7ostest', 'ahmed7os@7os.com', '$2y$10$t59oYjJx0w2BlWQnxj.fd.ci48/tGZKThyUKsGSl1z06dCLrrOL02', 0, 0, 2147483647, '');
 
 --
 -- Indexes for dumped tables
@@ -135,7 +137,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

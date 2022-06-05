@@ -66,12 +66,10 @@
                                     $_SESSION["email"] = $email;
                 ?>
                                     <div class="alert alert-success" role="alert">
-                                        Account has been registered!<br>You'll be redirected in five seconds.
-                                        <?php header("refresh:5; url=home"); ?>
+                                        Account has been registered!
+                                        <?php header("Location: home"); ?>
                                         <script>
-                                            setTimeout(function() {
-                                                window.location.href = 'home';
-                                            }, 5000);
+                                            window.location.replace("home");
                                         </script>
                                     </div>
                                 <?php
