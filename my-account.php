@@ -7,16 +7,10 @@
         die("Connection failed!: " . mysqli_connect_error());
     }
 
-    notRegistered();
+    authCheck();
+    logCheck_unregistered();
 
-    $ssn_email = $_SESSION["email"];
-    $user_check_query = "SELECT * FROM users WHERE Email='$ssn_email'";
-    $result = mysqli_query($conn, $user_check_query);
-    $numRows = mysqli_num_rows($result);
-    if ($numRows == 1) 
-    {
-        $user = mysqli_fetch_assoc($result);
-    }
+    $user = getUserData($_SESSION["email"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -79,6 +73,13 @@
                     <div class="col-sm">
                         <label for="access" class="form-label"><b>Access</b></label>
                         <input class="form-control" type="text" value="<?php echo access_type($user["Access"]);?>" aria-label="access" disabled readonly>
+                    </div>
+                </div>
+                <hr>
+                <div class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-sm">
+                        <label for="role" class="form-label"><b>Wallet</b></label>
+                        <input class="form-control" type="text" value="EGP <?php echo number_format($user["Wallet"], 2);?>" aria-label="role" disabled readonly>
                     </div>
                 </div>
             </div>

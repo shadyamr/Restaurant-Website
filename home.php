@@ -4,11 +4,9 @@
     require 'main/functions.php';
     $user = getUserData($_SESSION["email"]);
     $product_key = array();
-    if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
-    {
-        header("location: login");
-        exit;
-    }
+    
+    authCheck();
+    logCheck_unregistered();
 
     if (filter_input(INPUT_POST, 'add_to_cart'))
     {
@@ -99,7 +97,7 @@
                                     My Account
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="wallet"><i class="fa-solid fa-credit-card"></i> Wallet: EGP <?php echo $user["Role"];?></a></li>
+                                    <li><a class="dropdown-item" href="wallet"><i class="fa-solid fa-credit-card"></i> Wallet: EGP <?php echo number_format($user["Wallet"], 2);?></a></li>
                                     <li><a class="dropdown-item" href="orders"><i class="fa-solid fa-cart-shopping"></i> My Orders</a></li>
                                     <li><a class="dropdown-item" href="my-account"><i class="fa-solid fa-user"></i> Account Info</a></li>
                                     <li><a class="dropdown-item" href="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>

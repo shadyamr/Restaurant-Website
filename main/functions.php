@@ -9,8 +9,8 @@ function getUserData($email)
     if ($numRows == 1) 
     {
         $user = mysqli_fetch_assoc($result);
+        return $user;
     }
-    return $user;
 }
 
 function checkLogin($email, $password)
@@ -81,7 +81,33 @@ function checkLogin($email, $password)
     }
 }
 
-function notRegistered()
+function authCheck()
+{
+    if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+    {
+        $user = getUserData($_SESSION["email"]);
+        if($user["Access"] == 0)
+        {
+            header("location: unauthorized");
+            exit;
+        }
+    }
+}
+
+function authorized()
+{
+    if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+    {
+        $user = getUserData($_SESSION["email"]);
+        if($user["Access"] == 1)
+        {
+            header("location: home");
+            exit;
+        }
+    }
+}
+
+function logCheck_unregistered()
 {
     if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
     {
@@ -89,6 +115,16 @@ function notRegistered()
         exit;
     }
 }
+
+function logCheck_registered()
+{
+    if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+    {
+        header("location: home");
+        exit;
+    }
+}
+
 
 function logout()
 {
