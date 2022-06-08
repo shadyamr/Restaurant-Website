@@ -1,6 +1,8 @@
 <?php
     session_start();
     require 'main/connect.php';
+    require 'main/functions.php';
+    $user = getUserData($_SESSION["email"]);
     $product_key = array();
     if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
     {
@@ -97,7 +99,7 @@
                                     My Account
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="wallet"><i class="fa-solid fa-credit-card"></i> Wallet: EGP 0.00</a></li>
+                                    <li><a class="dropdown-item" href="wallet"><i class="fa-solid fa-credit-card"></i> Wallet: EGP <?php echo $user["Role"];?></a></li>
                                     <li><a class="dropdown-item" href="orders"><i class="fa-solid fa-cart-shopping"></i> My Orders</a></li>
                                     <li><a class="dropdown-item" href="my-account"><i class="fa-solid fa-user"></i> Account Info</a></li>
                                     <li><a class="dropdown-item" href="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>

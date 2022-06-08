@@ -1,16 +1,13 @@
 <?php
     session_start();
     require 'main/connect.php';
+    require 'main/functions.php';
     if (!$conn) 
     {
         die("Connection failed!: " . mysqli_connect_error());
     }
 
-    if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
-    {
-        header("location: login");
-        exit;
-    }
+    notRegistered();
 
     $ssn_email = $_SESSION["email"];
     $user_check_query = "SELECT * FROM users WHERE Email='$ssn_email'";
@@ -19,38 +16,6 @@
     if ($numRows == 1) 
     {
         $user = mysqli_fetch_assoc($result);
-    }
-
-    function account_type($type)
-    {
-        if($type == 1)
-        {
-            echo "Waiter";
-        }
-        else if($type == 2)
-        {
-            echo "Quality Control";
-        }
-        else if($type == 3)
-        {
-            echo "Administrator";
-        }
-        else
-        {
-            echo "User";
-        }
-    }
-
-    function access_type($type)
-    {
-        if($type == 1)
-        {
-            echo "Authorized";
-        }
-        else
-        {
-            echo "Unauthorized";
-        }
     }
 ?>
 <!DOCTYPE html>
