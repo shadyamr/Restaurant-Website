@@ -20,10 +20,10 @@
 
                     $firstname = $_POST["fname"];
                     $lastname = $_POST["lname"];
-                    $username = $_POST["user"];
+                    $username = strtolower($_POST["user"]);
                     $password = $_POST["password"];
                     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                    $emailad = $_POST["email"];
+                    $emailad = strtolower($_POST["email"]);
                     $nationalid = $_POST["nationalid"];
 
                     $nationalID_img = new NationalID();
@@ -35,7 +35,7 @@
                     $nID_img = $nationalID_img->nationalID_getFileName();
                     $profilePic_img = $pp_img->ProfilePicture_getFileName();;
 
-                    $email = $_POST["email"];
+                    $email = strtolower($_POST["email"]);
                     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
                     $register->checkAccDuplicate($username, $emailad);

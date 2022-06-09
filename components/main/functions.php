@@ -164,7 +164,7 @@ class Register
 
         if ($user) 
         {
-            if ($user['Username'] === $username || $user['Email'] === $email)
+            if (strtolower($user['Username']) === $username || strtolower($user['Email']) === $email)
             {
                 die("
                     <div class='alert alert-danger' role='alert'>

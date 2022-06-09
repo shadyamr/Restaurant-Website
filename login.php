@@ -16,7 +16,7 @@
                 $_SESSION["loggedin"] = false;
                 if ($_POST) 
                 {
-                    $email = $_POST["user"];
+                    $email = strtolower($_POST["user"]);
                     $password = $_POST["password"];
                     if (!$conn)
                     {
