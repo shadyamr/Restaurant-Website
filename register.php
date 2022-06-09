@@ -10,11 +10,14 @@
             <?php
             session_start();
             require 'components/main/connect.php';
+            require 'components/main/functions.php';
             if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
             {
                 $_SESSION["loggedin"] = false;
                 if ($_POST)
                 {
+                    $register = new Register();
+
                     $firstname = $_POST["fname"];
                     $lastname = $_POST["lname"];
                     $username = $_POST["user"];
@@ -23,47 +26,35 @@
                     $emailad = $_POST["email"];
                     $nationalid = $_POST["nationalid"];
 
+                    $nationalID_img = new NationalID();
+                    $nationalID_img->nationalID_Upload();
+
+                    $pp_img = new ProfilePicture();
+                    $pp_img->ProfilePicture_Upload();
+
+                    $nID_img = $nationalID_img->nationalID_getFileName();
+                    $profilePic_img = $pp_img->ProfilePicture_getFileName();;
+
                     $email = $_POST["email"];
                     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-                    $user_check_query = "SELECT * FROM users WHERE Username='$username' OR Email='$emailad' LIMIT 1";
-                    $result = mysqli_query($conn, $user_check_query);
-                    $user = mysqli_fetch_assoc($result);
 
-                    if ($user) 
-                    {
-                        if ($user['Username'] === $username || $user['Email'] === $email) 
-                        {
-                            die("
-                                <div class='alert alert-danger' role='alert'>
-                                    <strong>Registration Incomplete!</strong><br><br>Email or Username is taken.
-                                    <br><br>Page will be reloaded.
-                                </div>
-
-                                <script>
-                                    setTimeout(function()
-                                        {
-                                            window.location.href = 'register';
-                                        }, 5000);
-                                </script>
-                                ");
-                            header("refresh:5; url=register");
-                        }
-                    }
+                    $register->checkAccDuplicate($username, $emailad);
 
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL) == false) 
                     {
                         if ($_POST["password"] == $_POST["confirmpass"]) 
                         {
-                            if (!$conn) 
+                            if (!$conn)
                             {
                                 die("Connection failed!: " . mysqli_connect_error());
                             }
                             else
                             {
-                                $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0, '$nationalid')";
+                                $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, National_ID_Image, ProfilePicture, Wallet) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0, '$nationalid', '$nID_img', '$profilePic_img', 0)";
                                 if ($conn->query($query) === TRUE) :
                                     $_SESSION["loggedin"] = true;
                                     $_SESSION["email"] = $email;
+                                    $_SESSION['cart'] = array_values($_SESSION['cart']);
                 ?>
                                     <div class="alert alert-success" role="alert">
                                         Account has been registered!
@@ -140,6 +131,18 @@
                             <input type="text" id="nationalid" name="nationalid" class="form-control" placeholder="National ID" required autofocus>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="nationalid" class="sr-only">National ID</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Governorate</option>
+                                <option value="1">Cairo</option>
+                                <option value="2">Ismailia</option>
+                                <option value="3">Suez</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm">
                     <div class="form-group">
@@ -168,7 +171,13 @@
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                            <input class="form-control" type="file" id="nationalid_image">
+                            <input class="form-control" type="file" name="file" id="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-person"></i></span>
+                            <input class="form-control" type="file" name="pp" id="pp">
                         </div>
                     </div>
                 </div>

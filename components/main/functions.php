@@ -161,6 +161,38 @@ class Login
     }
 }
 
+class Register
+{
+    function checkAccDuplicate($username, $email)
+    {
+        require 'connect.php';
+        $user_check_query = "SELECT * FROM users WHERE Username='$username' OR Email='$email' LIMIT 1";
+        $result = mysqli_query($conn, $user_check_query);
+        $user = mysqli_fetch_assoc($result);
+
+        if ($user) 
+        {
+            if ($user['Username'] === $username || $user['Email'] === $email)
+            {
+                die("
+                    <div class='alert alert-danger' role='alert'>
+                        <strong>Registration Incomplete!</strong><br><br>Email or Username is taken.
+                        <br><br>Page will be reloaded.
+                    </div>
+
+                    <script>
+                        setTimeout(function()
+                            {
+                                window.location.href = 'register';
+                            }, 5000);
+                    </script>
+                    ");
+                header("refresh:5; url=register");
+            }
+        }
+    }
+}
+
 class Logout
 {
     function logout()
@@ -224,35 +256,181 @@ class Wallet
     }
 }
 
-function nationalID_Upload()
+class NationalID
 {
-    $file = $_FILES['file'];
-
-    $fileName = $_FILES['file']['name'];
-    $fileTmpName = $_FILES['file']['tmp_name'];
-    $fileSize = $_FILES['file']['size'];
-    $fileError = $_FILES['file']['error'];
-    $fileType = $_FILES['file']['type'];
-
-    $fileExt = explode('.', $fileName);
-    $fileActualExt = strtolower(end($fileExt));
-    
-    $allowed = array('jpeg','jpg','png','pdf');
-    if(in_array($fileActualExt, $allowed)){
-    if($fileError === 0)
+    public $fileNewName;
+    function nationalID_Upload()
     {
-        if($fileSize < 1000000){
-        $fileNewName = uniqid('',true).".".$fileActualExt;
-        $fileDestination = 'components/assets/img/uploads/national_id'.$fileNewName;
-        move_uploaded_file($fileTmpName,$fileDestination);
-        } else {
-            echo "Your file is too big!";
+        $file = $_FILES['file'];
+
+        $fileName = $_FILES['file']['name'];
+        $fileTmpName = $_FILES['file']['tmp_name'];
+        $fileSize = $_FILES['file']['size'];
+        $fileError = $_FILES['file']['error'];
+        $fileType = $_FILES['file']['type'];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+        
+        $allowed = array('jpeg','jpg','png','pdf');
+        if(in_array($fileActualExt, $allowed))
+        {
+            if($fileError === 0)
+            {
+                if($fileSize < 1000000)
+                {
+                    $fileNewName = uniqid('',true).".".$fileActualExt;
+                    $fileDestination = 'components/assets/img/uploads/national_id/'.$fileNewName;
+                    move_uploaded_file($fileTmpName, $fileDestination);
+                    $this->fileNewName = $fileNewName;
+                }
+                else
+                {
+                    die("
+                    <div class='alert alert-danger' role='alert'>
+                        <strong>Registration Incomplete!</strong><br><br>File is large.
+                        <br><br>Page will be reloaded.
+                    </div>
+        
+                    <script>
+                        setTimeout(function()
+                            {
+                                window.location.href = 'register';
+                            }, 5000);
+                    </script>
+                    ");
+                    header("refresh:5; url=register");
+                }
+            }
+            else
+            {
+                die("
+                <div class='alert alert-danger' role='alert'>
+                    <strong>Registration Incomplete!</strong><br><br>There was an error uploading this file.<br><br>Reloading the page.
+                    <br><br>Page will be reloaded.
+                </div>
+    
+                <script>
+                    setTimeout(function()
+                        {
+                            window.location.href = 'register';
+                        }, 5000);
+                </script>
+                ");
+                header("refresh:5; url=register");
+            }
         }
-    } else{
-        echo "There was an error uploading this file, please try again!";
+        else
+        {
+            die("
+            <div class='alert alert-danger' role='alert'>
+                <strong>Registration Incomplete!</strong><br><br>File type is not accepted.
+                <br><br>Page will be reloaded.
+            </div>
+
+            <script>
+                setTimeout(function()
+                    {
+                        window.location.href = 'register';
+                    }, 5000);
+            </script>
+            ");
+            header("refresh:5; url=register");
+        }
     }
-    } else {
-        echo "ERROR! This type of file is not allowed!";
+
+    function nationalID_getFileName()
+    {
+        return $this->fileNewName;
+    }
+}
+
+class ProfilePicture
+{
+    public $fileNewName;
+    function ProfilePicture_Upload()
+    {
+        $file = $_FILES['pp'];
+
+        $fileName = $_FILES['pp']['name'];
+        $fileTmpName = $_FILES['pp']['tmp_name'];
+        $fileSize = $_FILES['pp']['size'];
+        $fileError = $_FILES['pp']['error'];
+        $fileType = $_FILES['pp']['type'];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+        
+        $allowed = array('jpeg','jpg','png','pdf');
+        if(in_array($fileActualExt, $allowed))
+        {
+            if($fileError === 0)
+            {
+                if($fileSize < 1000000)
+                {
+                    $fileNewName = uniqid('',true).".".$fileActualExt;
+                    $fileDestination = 'components/assets/img/uploads/pp/'.$fileNewName;
+                    move_uploaded_file($fileTmpName, $fileDestination);
+                    $this->fileNewName = $fileNewName;
+                }
+                else
+                {
+                    die("
+                    <div class='alert alert-danger' role='alert'>
+                        <strong>Registration Incomplete!</strong><br><br>File is large.
+                        <br><br>Page will be reloaded.
+                    </div>
+        
+                    <script>
+                        setTimeout(function()
+                            {
+                                window.location.href = 'register';
+                            }, 5000);
+                    </script>
+                    ");
+                    header("refresh:5; url=register");
+                }
+            }
+            else
+            {
+                die("
+                <div class='alert alert-danger' role='alert'>
+                    <strong>Registration Incomplete!</strong><br><br>There was an error uploading this file.<br><br>Reloading the page.
+                    <br><br>Page will be reloaded.
+                </div>
+    
+                <script>
+                    setTimeout(function()
+                        {
+                            window.location.href = 'register';
+                        }, 5000);
+                </script>
+                ");
+                header("refresh:5; url=register");
+            }
+        }
+        else
+        {
+            die("
+            <div class='alert alert-danger' role='alert'>
+                <strong>Registration Incomplete!</strong><br><br>File type is not accepted.
+                <br><br>Page will be reloaded.
+            </div>
+
+            <script>
+                setTimeout(function()
+                    {
+                        window.location.href = 'register';
+                    }, 5000);
+            </script>
+            ");
+            header("refresh:5; url=register");
+        }
+    }
+
+    function ProfilePicture_getFileName()
+    {
+        return $this->fileNewName;
     }
 }
 
