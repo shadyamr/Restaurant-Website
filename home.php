@@ -102,6 +102,14 @@
                                     <li><a class="dropdown-item" href="wallet"><i class="fa-solid fa-credit-card"></i> Wallet: EGP <?php echo number_format($user["Wallet"], 2);?></a></li>
                                     <li><a class="dropdown-item" href="orders"><i class="fa-solid fa-cart-shopping"></i> My Orders</a></li>
                                     <li><a class="dropdown-item" href="my-account"><i class="fa-solid fa-user"></i> Account Info</a></li>
+                                    <?php
+                                        if($user["Role"] == 1 || $user["Role"] == 2)
+                                        {
+                                    ?>
+                                    <li><a class="dropdown-item" href="portal"><i class="fa-solid fa-clipboard-user"></i> Staff Portal</a></li>
+                                    <?php
+                                        }
+                                    ?>
                                     <li><a class="dropdown-item" href="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
                                 </ul>
                             </li>
