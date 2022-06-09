@@ -64,7 +64,7 @@
             </nav>
             <div class="p-5 mb-4 rounded-3">
                 <div class="container-fluid py-5">
-                    <h1 class="display-5 fw-bold">Welcome, <?php echo $_SESSION["email"]?>!</h1>
+                    <h1 class="display-5 fw-bold">Welcome, <?php echo $user["FirstName"]?>!</h1>
                     <p class="col-md-8"><span class="badge bg-secondary"><?php echo $userAcc->account_type($user["Role"]);?></span> </p>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Account Information
