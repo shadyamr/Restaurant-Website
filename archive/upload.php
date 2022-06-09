@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['submit'])){
-    $file = $_FILES['national_id'];
+    $file = $_FILES['file'];
 
     $fileName = $_FILES['file']['name'];
     $fileTmpName = $_FILES['file']['tmp_name'];
@@ -16,7 +16,7 @@ if (isset($_POST['submit'])){
     if($fileError === 0) // check for file error uploads
     {
         if($fileSize < 1000000){
-        $fileNewName = uniqid('',true).".".$fileActualExt //Gives the file a unique ID so nothing gets replaced.
+        $fileNewName = uniqid('',true).".".$fileActualExt; //Gives the file a unique ID so nothing gets replaced.
         $fileDestination = 'file/'.$fileNewName;
         move_uploaded_file($fileTmpName,$fileDestination); //Moves the file from its temporary location to our file destination.
         } else {
