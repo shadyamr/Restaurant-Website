@@ -18,7 +18,7 @@
                 {
                     $email = $_POST["user"];
                     $password = $_POST["password"];
-                    if (!$conn) 
+                    if (!$conn)
                     {
                         die("Connection failed!: " . mysqli_connect_error());
                     }

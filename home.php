@@ -10,16 +10,16 @@
 
     if (filter_input(INPUT_POST, 'add_to_cart'))
     {
-        if (isset($_SESSION['shopping_cart']))
+        if (isset($_SESSION['cart']))
         {
             //keep track of how many products are in the shopping cart
-            $count = count($_SESSION['shopping_cart']);
+            $count = count($_SESSION['cart']);
             //create sequantial array for matchiing array to product id's
-            $product_id = array_column($_SESSION['shopping_cart'], 'id');
+            $product_id = array_column($_SESSION['cart'], 'id');
 
             if (!in_array(filter_input(INPUT_GET, 'id'), $product_id))
             {
-                $_SESSION['shopping_cart'][$count] = array(
+                $_SESSION['cart'][$count] = array(
                     'id' => filter_input(INPUT_GET, 'id'),
                     'name' => filter_input(INPUT_POST, 'name'),
                     'description' => filter_input(INPUT_POST, 'description'),
@@ -34,7 +34,7 @@
                     //add item quantity to the existing product in the array
                     if ($product_id[$i] == filter_input(INPUT_GET, 'id'))
                     {
-                        $_SESSION['shopping_cart'][$i]['quantity'] += filter_input(INPUT_POST, 'quantity');
+                        $_SESSION['cart'][$i]['quantity'] += filter_input(INPUT_POST, 'quantity');
                     }
                 }
             }
@@ -42,7 +42,7 @@
         else
         { //if shopping cart doqsn't exist, create first product with array key 0
             //create array with submitted form data
-            $_SESSION['shopping_cart'][0] = array(
+            $_SESSION['cart'][0] = array(
                 'id' => filter_input(INPUT_GET, 'id'),
                 'name' => filter_input(INPUT_POST, 'name'),
                 'description' => filter_input(INPUT_POST, 'description'),
@@ -54,14 +54,14 @@
 
     if (filter_input(INPUT_GET, 'action') == 'delete')
     {
-        foreach ($_SESSION['shopping_cart'] as $product_key => $products)
+        foreach ($_SESSION['cart'] as $product_key => $products)
         {
             if ($products['id'] == filter_input(INPUT_GET, 'id'))
             {
-                unset($_SESSION['shopping_cart'][$product_key]);
+                unset($_SESSION['cart'][$product_key]);
             }
         }
-        $_SESSION['shopping_cart'] = array_values($_SESSION['shopping_cart']);
+        $_SESSION['cart'] = array_values($_SESSION['cart']);
     }
 ?>
 <!DOCTYPE html>
@@ -132,26 +132,26 @@
                             } ?>
                         </ul>
                     </div>
-                    <?php if (!count($_SESSION['shopping_cart']) == 0) : ?>
+                    <?php if (count($_SESSION['cart']) !== 0) : ?>
                         <hr>
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span id="cart" class="text-primary">Your cart</span>
                         </h4>
                         <ul class="list-group mb-3">
                             <?php
-                            if (!empty($_SESSION['shopping_cart'])) :
+                            if (!empty($_SESSION['cart'])) :
                                 $total = 0;
 
-                                foreach ($_SESSION['shopping_cart'] as $product_key => $products) :
+                                foreach ($_SESSION['cart'] as $product_key => $products) :
 
                             ?>
                                     <li class="list-group-item d-flex justify-content-between lh-sm">
                                         <div>
                                             <h6 class="my-0"><?php echo $products['name']; ?> <span class="badge rounded-pill bg-secondary"><?php echo $products['quantity']; ?></span></h6>
-                                            <small class="text-muted">Total: <?php echo number_format($products['quantity'] * $products['price'], 2); ?></small>
+                                            <small class="text-muted">Total: EGP <?php echo number_format($products['quantity'] * $products['price'], 2); ?></small>
                                         </div>
                                         <span class="text-muted">
-                                            EGP <?php echo $products['price']; ?>
+                                            EGP <?php echo number_format($products['price'], 2); ?>
                                             <a href="home?action=delete&id=<?php echo $products['id']; ?>#cart">
                                                 <span class="badge bg-danger">X</span>
                                             </a>
@@ -170,8 +170,8 @@
                         <form class="card p-2">
                             <div class="d-grid gap-2">
                                 <?php
-                                if (isset($_SESSION['shopping_cart'])) :
-                                    if (count($_SESSION['shopping_cart']) > 0) :
+                                if (isset($_SESSION['cart'])) :
+                                    if (count($_SESSION['cart']) > 0) :
                                 ?>
                                         <button type="submit" class="btn btn-success">Proceed to Checkout</button>
                                 <?php endif;
@@ -256,6 +256,10 @@
             {
                 alert("Please enter a number higher than 1!");
                 return false;
+            }
+            else
+            {
+                return true;
             }
         }
         if (window.history.replaceState)

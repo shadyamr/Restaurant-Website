@@ -31,6 +31,7 @@ function checkLogin($email, $password)
                     ";
             $_SESSION["loggedin"] = true;
             $_SESSION["email"] = $user["Email"];
+            $_SESSION['cart'] = array_values($_SESSION['cart']);
             if ($user["Role"] == 1) 
             {
                 header("Location: waiter");
@@ -164,6 +165,54 @@ function access_type($type)
     else
     {
         echo "Unauthorized";
+    }
+}
+
+function getWalletCode($code)
+{
+    require 'connect.php';
+    $wallet_query = "SELECT * FROM credit_code WHERE Code = '$code'";
+    $result = mysqli_query($conn, $wallet_query);
+    $numRows = mysqli_num_rows($result);
+    if ($numRows == 1) 
+    {
+        $walletCode = mysqli_fetch_assoc($result);
+        return $walletCode;
+    }
+}
+
+function WalletCodeCheck($code)
+{
+    require 'connect.php';
+    $walletCode = getWalletCode($code);
+    logCheck_unregistered();
+    if($walletCode["Code"] == $code)
+    {
+        if($walletCode["Used"] == 0)
+        {
+            $user = getUserData($_SESSION["email"]);
+                
+            $walletSQL = "UPDATE users SET Wallet= Wallet + '$walletCode[Amount]' WHERE Email='$user[Email]'";
+            $walletCodeSQL = "UPDATE credit_code SET Used = 1 WHERE Code = '$code'";
+
+            if ($conn->query($walletSQL) === TRUE && $conn->query($walletCodeSQL) === TRUE)
+            {
+                echo "Record updated successfully";
+                header("refresh: 0");
+            }
+            else 
+            {
+                echo "Error updating record: " . $conn->error;
+            }
+        }
+        else
+        {
+            echo "Code is used";
+        }
+    }
+    else
+    {
+        echo "Error, code doesn't exist.";
     }
 }
 
