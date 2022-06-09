@@ -1,3 +1,6 @@
+<?php
+require 'components/main/connect.php';
+?>
 <html>
 <head>
     <title></title>
@@ -51,6 +54,22 @@
                     <td></td>
                 </tr>
             </tbody>
+            <?php 
+
+                $query="Select * FROM products";
+                $result=mysqli_query($conn,$query);
+                while($row=mysqli_fetch_assoc($result)){
+            ?>
+            <tr>
+                <td><img src="./components/assets/img/uploads/<?php echo $row['image'] ?>"class="img-responsive" width="150"></td>
+                <td><?php echo $row['name'] ?></td>
+                <td><?php echo $row['description'] ?></td>
+                <td><?php echo $row['price'] ?></td>
+            </tr>
+            
+            <?php
+                }
+            ?>
         </table>
     </div>
 </body>
