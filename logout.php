@@ -1,5 +1,5 @@
 <?php
-    require 'main/functions.php';
+    require 'components/main/functions.php';
     session_start();
     logout();
 ?>

@@ -1,7 +1,7 @@
 <?php
     session_start();
-    require 'main/connect.php';
-    require 'main/functions.php';
+    require 'components/main/connect.php';
+    require 'components/main/functions.php';
     if (!$conn) 
     {
         die("Connection failed!: " . mysqli_connect_error());
@@ -14,7 +14,7 @@
 ?>
 <!DOCTYPE html>
 <html>
-<?php include 'main/html_header.php'; ?>
+<?php include 'components/main/html_header.php'; ?>
 
 <body style="background-color:#f1f2f6;">
 
@@ -23,7 +23,7 @@
             <nav style="border-radius: 0.25rem" class="navbar navbar-dark bg-primary navbar-expand-lg mb-4 mt-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="home">
-                        <img style="background-color:#F8F9FA;border-radius:5px;" src="./assets/img/grnd.png" alt="" width="30" class="d-inline-block align-text-top">
+                        <img style="background-color:#F8F9FA;border-radius:5px;" src="./components/assets/img/grnd.png" alt="" width="30" class="d-inline-block align-text-top">
                         CairoGRND
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

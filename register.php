@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-<?php include 'main/html_header_alt.php'; ?>
+<?php include 'components/main/html_header_alt.php'; ?>
 
 <body class="text-center">
     <form class="form-account" id="register" action="register" method="POST" enctype="multipart/form-data">
         <div class="container align-items-center">
-            <img class="mb-4" src="./assets/img/grnd.png" alt="" width="72" height="72">
+            <img class="mb-4" src="./components/assets/img/grnd.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GRND - Register</h1>
             <?php
             session_start();
-            require 'main/connect.php';
+            require 'components/main/connect.php';
             if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
             {
                 $_SESSION["loggedin"] = false;

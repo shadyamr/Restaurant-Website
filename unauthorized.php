@@ -1,7 +1,7 @@
 <?php
     session_start();
-    require 'main/connect.php';
-    require 'main/functions.php';
+    require 'components/main/connect.php';
+    require 'components/main/functions.php';
     if (!$conn) 
     {
         die("Connection failed!: " . mysqli_connect_error());
@@ -12,7 +12,7 @@
 ?>
 <!DOCTYPE html>
 <html>
-    <?php include 'main/html_header_alt.php'; ?>
+    <?php include 'components/main/html_header_alt.php'; ?>
     <style>
         ul
         {
@@ -24,7 +24,7 @@
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom">
         <a href="home" class="d-flex align-items-center text-dark text-decoration-none">
-            <img src="./assets/img/grnd.png" width="40">
+            <img src="./components/assets/img/grnd.png" width="40">
             <span class="fs-4">CairoGRND</span>
         </a>
         </header>
@@ -33,7 +33,7 @@
             <div class="container-fluid py-2">
                 <div class="card">
                     <div class="card-header text-center">
-                        <img src="./assets/img/error.png">
+                        <img src="./components/assets/img/error.png">
                     </div>
                     <div class="card-body text-center">
                         <h2>Unauthorized Access!</h2>

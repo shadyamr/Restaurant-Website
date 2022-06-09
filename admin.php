@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require 'main/connect.php';
+    require 'components/main/connect.php';
     if (!$conn) 
     {
         die("Connection failed!: " . mysqli_connect_error());
@@ -28,7 +28,7 @@
 ?>
 <!DOCTYPE html>
 <html>
-    <?php include 'main/html_header_alt.php'; ?>
+    <?php include 'components/main/html_header_alt.php'; ?>
     <body>
         <?php
             if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true):
@@ -40,7 +40,7 @@
             <div class="container text-center">
                 <div class="row justify-content-md-center">
                     <div class="col-sm-auto">
-                        <img src="./assets/img/grnd.png"><h1>CairoGRND</h1>
+                        <img src="./components/assets/img/grnd.png"><h1>CairoGRND</h1>
                         <div class="alert alert-danger" role="alert">
                             <h4 class="alert-heading text-center"><i class="fa-solid fa-triangle-exclamation"></i> Error!</h4>
                             <p class="mb-0"><strong>Access Denied!</strong> You will be redirected back to the homepage.</p>
@@ -62,7 +62,7 @@
             <div class="container text-center">
                 <div class="row justify-content-md-center">
                     <div class="col-sm-auto">
-                        <img src="./assets/img/grnd.png"><h1>CairoGRND</h1>
+                        <img src="./components/assets/img/grnd.png"><h1>CairoGRND</h1>
                         <div class="alert alert-success" role="alert">
                             <h4 class="alert-heading text-center"><i class="fa-solid fa-circle-check"></i> Admin Portal</h4>
                             <p class="mb-0">
