@@ -7,10 +7,12 @@
         die("Connection failed!: " . mysqli_connect_error());
     }
 
-    authCheck();
-    logCheck_unregistered();
+    $userAcc = new User();
+    
+    $userAcc->authCheck();
+    $userAcc->logCheck_unregistered();
 
-    $user = getUserData($_SESSION["email"]);
+    $user = $userAcc->getUserData($_SESSION["email"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,7 +65,7 @@
             <div class="p-5 mb-4 rounded-3">
                 <div class="container-fluid py-5">
                     <h1 class="display-5 fw-bold">Welcome, <?php echo $_SESSION["email"]?>!</h1>
-                    <p class="col-md-8"><span class="badge bg-secondary"><?php echo account_type($user["Role"]);?></span> </p>
+                    <p class="col-md-8"><span class="badge bg-secondary"><?php echo $userAcc->account_type($user["Role"]);?></span> </p>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Account Information
                     </button>
@@ -110,11 +112,11 @@
                         <div class="row row-cols-lg-auto g-3 align-items-center">
                             <div class="col-sm custom_mr_col">
                                 <label for="role" class="form-label"><b>Role</b></label>
-                                <input class="form-control" type="text" value="<?php echo account_type($user["Role"]);?>" aria-label="role" disabled readonly>
+                                <input class="form-control" type="text" value="<?php echo $userAcc->account_type($user["Role"]);?>" aria-label="role" disabled readonly>
                             </div>
                             <div class="col-sm custom_mr_col">
                                 <label for="access" class="form-label"><b>Access</b></label>
-                                <input class="form-control" type="text" value="<?php echo access_type($user["Access"]);?>" aria-label="access" disabled readonly>
+                                <input class="form-control" type="text" value="<?php echo $userAcc->access_type($user["Access"]);?>" aria-label="access" disabled readonly>
                             </div>
                         </div>
                         <hr>

@@ -1,91 +1,94 @@
 <?php
 
-function getUserData($email)
+class User
 {
-    require 'connect.php';
-    $user_check_query = "SELECT * FROM users WHERE Email='$email'";
-    $result = mysqli_query($conn, $user_check_query);
-    $numRows = mysqli_num_rows($result);
-    if ($numRows == 1) 
+    function getUserData($email)
     {
-        $user = mysqli_fetch_assoc($result);
-        return $user;
-    }
-}
-
-function authCheck()
-{
-    if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
-    {
-        $user = getUserData($_SESSION["email"]);
-        if($user["Access"] == 0)
+        require 'connect.php';
+        $user_check_query = "SELECT * FROM users WHERE Email='$email'";
+        $result = mysqli_query($conn, $user_check_query);
+        $numRows = mysqli_num_rows($result);
+        if ($numRows == 1) 
         {
-            header("location: unauthorized");
+            $user = mysqli_fetch_assoc($result);
+            return $user;
+        }
+    }
+
+    function authCheck()
+    {
+        if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+        {
+            $user = $this->getUserData($_SESSION["email"]);
+            if($user["Access"] == 0)
+            {
+                header("location: unauthorized");
+                exit;
+            }
+        }
+    }
+
+    function authorized()
+    {
+        if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+        {
+            $user = $this->getUserData($_SESSION["email"]);
+            if($user["Access"] == 1)
+            {
+                header("location: home");
+                exit;
+            }
+        }
+    }
+
+    function logCheck_unregistered()
+    {
+        if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
+        {
+            header("location: login");
             exit;
         }
     }
-}
 
-function authorized()
-{
-    if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+    function logCheck_registered()
     {
-        $user = getUserData($_SESSION["email"]);
-        if($user["Access"] == 1)
+        if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
         {
             header("location: home");
             exit;
         }
     }
-}
 
-function logCheck_unregistered()
-{
-    if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
+    function account_type($type)
     {
-        header("location: login");
-        exit;
+        if($type == 1)
+        {
+            echo "Waiter";
+        }
+        else if($type == 2)
+        {
+            echo "Quality Control";
+        }
+        else if($type == 3)
+        {
+            echo "Administrator";
+        }
+        else
+        {
+            echo "User";
+        }
     }
-}
 
-function logCheck_registered()
-{
-    if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+    function access_type($type)
     {
-        header("location: home");
-        exit;
-    }
-}
-
-function account_type($type)
-{
-    if($type == 1)
-    {
-        echo "Waiter";
-    }
-    else if($type == 2)
-    {
-        echo "Quality Control";
-    }
-    else if($type == 3)
-    {
-        echo "Administrator";
-    }
-    else
-    {
-        echo "User";
-    }
-}
-
-function access_type($type)
-{
-    if($type == 1)
-    {
-        echo "Authorized";
-    }
-    else
-    {
-        echo "Unauthorized";
+        if($type == 1)
+        {
+            echo "Authorized";
+        }
+        else
+        {
+            echo "Unauthorized";
+        }
     }
 }
 
@@ -223,13 +226,14 @@ class Wallet
     function WalletCodeCheck($code)
     {
         require 'connect.php';
+        $userAcc = new User();
         $walletCode = $this->getWalletCode($code);
-        logCheck_unregistered();
+        $userAcc->logCheck_unregistered();
         if($walletCode["Code"] == $code)
         {
             if($walletCode["Used"] == 0)
             {
-                $user = getUserData($_SESSION["email"]);
+                $user = $userAcc->getUserData($_SESSION["email"]);
                     
                 $walletSQL = "UPDATE users SET Wallet= Wallet + '$walletCode[Amount]' WHERE Email='$user[Email]'";
                 $walletCodeSQL = "UPDATE credit_code SET Used = 1 WHERE Code = '$code'";

@@ -7,10 +7,12 @@
         die("Connection failed!: " . mysqli_connect_error());
     }
     $wallet = new Wallet();
-    authCheck();
-    logCheck_unregistered();
+    $userAcc = new User();
+    
+    $userAcc->authCheck();
+    $userAcc->logCheck_unregistered();
 
-    $user = getUserData($_SESSION["email"]);
+    $user = $userAcc->getUserData($_SESSION["email"]);
 
     if($_POST)
     {

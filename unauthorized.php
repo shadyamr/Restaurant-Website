@@ -7,8 +7,10 @@
         die("Connection failed!: " . mysqli_connect_error());
     }
 
-    authorized();
-    logCheck_unregistered();
+    $userAcc = new User();
+    
+    $userAcc->authorized();
+    $userAcc->logCheck_unregistered();
 ?>
 <!DOCTYPE html>
 <html>

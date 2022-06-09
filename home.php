@@ -2,11 +2,13 @@
     session_start();
     require 'components/main/connect.php';
     require 'components/main/functions.php';
-    $user = getUserData($_SESSION["email"]);
+    $userAcc = new User();
+    
+    $user = $userAcc->getUserData($_SESSION["email"]);
     $product_key = array();
     
-    authCheck();
-    logCheck_unregistered();
+    $userAcc->authCheck();
+    $userAcc->logCheck_unregistered();
 
     if (filter_input(INPUT_POST, 'add_to_cart'))
     {
