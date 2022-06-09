@@ -67,11 +67,7 @@ class User
         }
         else if($type == 2)
         {
-            echo "Quality Control";
-        }
-        else if($type == 3)
-        {
-            echo "Administrator";
+            echo "QC Manager";
         }
         else
         {
@@ -126,14 +122,7 @@ class Login
                     echo "<script>
                         window.location.replace('quality_control');
                     </script>";
-                } 
-                else if ($user["Role"] == 3) 
-                {
-                    header("Location: admin");
-                    echo "<script>
-                        window.location.replace('admin');
-                    </script>";
-                } 
+                }
                 else 
                 {
                     header("Location: home");
@@ -435,6 +424,35 @@ class ProfilePicture
     function ProfilePicture_getFileName()
     {
         return $this->fileNewName;
+    }
+}
+
+class Staff
+{
+    function qcCheck()
+    {
+        $userAcc = new User();
+        $user = $userAcc->getUserData($_SESSION["email"]);
+        if (!$user["Role"] == 2) 
+        {
+            header("Location: ../home");
+            echo "<script>
+                window.location.replace('../home');
+            </script>";
+        }
+    }
+
+    function waiterCheck()
+    {
+        $userAcc = new User();
+        $user = $userAcc->getUserData($_SESSION["email"]);
+        if (!$user["Role"] == 1) 
+        {
+            header("Location: ../home");
+            echo "<script>
+                window.location.replace('../home');
+            </script>";
+        }
     }
 }
 

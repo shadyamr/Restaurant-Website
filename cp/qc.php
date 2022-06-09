@@ -168,7 +168,7 @@
 </head>
   <body>
     
-<?php require_once "html_navbar.php"; ?>
+<?php require_once "html/html_navbar.php"; ?>
 
 <div class="container-fluid">
   <div class="row">
@@ -176,72 +176,39 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link active" aria-current="page" href="qc">
               <span data-feather="home" class="align-text-bottom"></span>
-              Dashboard
+              <i class="fa-solid fa-house"></i> Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="qc_activation">
               <span data-feather="file" class="align-text-bottom"></span>
-              Orders
+              <i class="fa-brands fa-creative-commons-sampling"></i> Activation
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="qc_reports">
               <span data-feather="shopping-cart" class="align-text-bottom"></span>
-              Products
+              <i class="fa-solid fa-chart-line"></i> Reports
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users" class="align-text-bottom"></span>
-              Customers
+            <a class="nav-link" href="qc_products">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              <i class="fa-solid fa-cart-shopping"></i> Products
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-              Reports
+            <a class="nav-link" href="qc_products">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              <i class="fa-solid fa-list"></i> Categories
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers" class="align-text-bottom"></span>
-              Integrations
-            </a>
-          </li>
-        </ul>
-
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-          <span>Accounts</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle" class="align-text-bottom"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              <i class="fa-solid fa-circle-plus"></i> Create Account
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              <i class="fa-solid fa-user-pen"></i> Edit Account
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              <i class="fa-solid fa-eye"></i> View Accounts
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              <i class="fa-solid fa-circle-minus"></i> Delete Account
+            <a class="nav-link" href="qc_accounts">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              <i class="fa-solid fa-user"></i> Accounts
             </a>
           </li>
         </ul>
