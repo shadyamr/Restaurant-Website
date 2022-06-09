@@ -153,7 +153,7 @@
                                         <span class="text-muted">
                                             EGP <?php echo number_format($products['price'], 2); ?>
                                             <a href="home?action=delete&id=<?php echo $products['id']; ?>#cart">
-                                                <span class="badge bg-danger">X</span>
+                                                <span class="badge bg-danger"><i class="fa-solid fa-x fa-sm"></i></span>
                                             </a>
                                         </span>
                                     </li>
@@ -172,7 +172,7 @@
                                 if (isset($_SESSION['cart'])) :
                                     if (count($_SESSION['cart']) > 0) :
                                 ?>
-                                        <a href="checkout" class="d-grid gap-2"><button type="submit" class="btn btn-success">Proceed</button></a>
+                                        <a href="checkout" class="d-grid gap-2"><button type="submit" class="btn btn-success">Proceed to Checkout</button></a>
                                 <?php endif;
                                 endif; ?>
                             <?php endif; ?>

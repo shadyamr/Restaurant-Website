@@ -6,7 +6,7 @@
     {
         die("Connection failed!: " . mysqli_connect_error());
     }
-
+    $wallet = new Wallet();
     authCheck();
     logCheck_unregistered();
 
@@ -14,7 +14,7 @@
 
     if($_POST)
     {
-        WalletCodeCheck($_POST["code"]);
+        $wallet->WalletCodeCheck($_POST["code"]);
     }
 ?>
 <!DOCTYPE html>

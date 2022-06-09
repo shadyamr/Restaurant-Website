@@ -1,5 +1,6 @@
 <?php
     require 'components/main/functions.php';
     session_start();
-    logout();
+    $logout = new Logout();
+    $logout->logout();
 ?>

@@ -24,7 +24,8 @@
                     }
                     else 
                     {
-                        checkLogin($email, $password);
+                        $login = new Login();
+                        $login->checkLogin($email, $password);
                     }
                 }
             }

@@ -13,75 +13,6 @@ function getUserData($email)
     }
 }
 
-function checkLogin($email, $password)
-{
-    require 'connect.php';
-    $user_check_query = "SELECT * FROM users WHERE Email='$email'";
-    $result = mysqli_query($conn, $user_check_query);
-    $numRows = mysqli_num_rows($result);
-    if ($numRows == 1) 
-    {
-        $user = mysqli_fetch_assoc($result);
-        if (password_verify($password, $user['Pass'])) 
-        {
-            echo "
-                    <div class='alert alert-success' role='alert'>
-                        <strong>Login Successful!</strong>
-                    </div>
-                    ";
-            $_SESSION["loggedin"] = true;
-            $_SESSION["email"] = $user["Email"];
-            $_SESSION['cart'] = array_values($_SESSION['cart']);
-            if ($user["Role"] == 1) 
-            {
-                header("Location: waiter");
-                echo "<script>
-                    window.location.replace('waiter');
-                </script>";
-            } 
-            else if ($user["Role"] == 2) 
-            {
-                header("Location: quality_control");
-                echo "<script>
-                    window.location.replace('quality_control');
-                </script>";
-            } 
-            else if ($user["Role"] == 3) 
-            {
-                header("Location: admin");
-                echo "<script>
-                    window.location.replace('admin');
-                </script>";
-            } 
-            else 
-            {
-                header("Location: home");
-                echo "<script>
-                    window.location.replace('home');
-                </script>";
-            }
-        }
-        else 
-        {
-            echo "
-                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                        <strong>Invalid Password!</strong><br><br>Try again.
-                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                    </div>
-                    ";
-        }
-    }
-    else
-    {
-        echo "
-                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                    <strong>Login Failed!</strong><br><br>User doesn't exist.
-                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                </div>
-                ";
-    }
-}
-
 function authCheck()
 {
     if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
@@ -126,16 +57,6 @@ function logCheck_registered()
     }
 }
 
-
-function logout()
-{
-    $_SESSION = array();
-    session_unset();
-    session_destroy();
-    header("location: login");
-    exit;
-}
-
 function account_type($type)
 {
     if($type == 1)
@@ -168,51 +89,170 @@ function access_type($type)
     }
 }
 
-function getWalletCode($code)
+class Login
 {
-    require 'connect.php';
-    $wallet_query = "SELECT * FROM credit_code WHERE Code = '$code'";
-    $result = mysqli_query($conn, $wallet_query);
-    $numRows = mysqli_num_rows($result);
-    if ($numRows == 1) 
+    function checkLogin($email, $password)
     {
-        $walletCode = mysqli_fetch_assoc($result);
-        return $walletCode;
-    }
-}
-
-function WalletCodeCheck($code)
-{
-    require 'connect.php';
-    $walletCode = getWalletCode($code);
-    logCheck_unregistered();
-    if($walletCode["Code"] == $code)
-    {
-        if($walletCode["Used"] == 0)
+        require 'connect.php';
+        $user_check_query = "SELECT * FROM users WHERE Email='$email'";
+        $result = mysqli_query($conn, $user_check_query);
+        $numRows = mysqli_num_rows($result);
+        if ($numRows == 1) 
         {
-            $user = getUserData($_SESSION["email"]);
-                
-            $walletSQL = "UPDATE users SET Wallet= Wallet + '$walletCode[Amount]' WHERE Email='$user[Email]'";
-            $walletCodeSQL = "UPDATE credit_code SET Used = 1 WHERE Code = '$code'";
-
-            if ($conn->query($walletSQL) === TRUE && $conn->query($walletCodeSQL) === TRUE)
+            $user = mysqli_fetch_assoc($result);
+            if (password_verify($password, $user['Pass'])) 
             {
-                echo "Record updated successfully";
-                header("refresh: 0");
+                echo "
+                        <div class='alert alert-success' role='alert'>
+                            <strong>Login Successful!</strong>
+                        </div>
+                        ";
+                $_SESSION["loggedin"] = true;
+                $_SESSION["email"] = $user["Email"];
+                $_SESSION['cart'] = array_values($_SESSION['cart']);
+                if ($user["Role"] == 1) 
+                {
+                    header("Location: waiter");
+                    echo "<script>
+                        window.location.replace('waiter');
+                    </script>";
+                } 
+                else if ($user["Role"] == 2) 
+                {
+                    header("Location: quality_control");
+                    echo "<script>
+                        window.location.replace('quality_control');
+                    </script>";
+                } 
+                else if ($user["Role"] == 3) 
+                {
+                    header("Location: admin");
+                    echo "<script>
+                        window.location.replace('admin');
+                    </script>";
+                } 
+                else 
+                {
+                    header("Location: home");
+                    echo "<script>
+                        window.location.replace('home');
+                    </script>";
+                }
             }
             else 
             {
-                echo "Error updating record: " . $conn->error;
+                echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Invalid Password!</strong><br><br>Try again.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
             }
         }
         else
         {
-            echo "Code is used";
+            echo "
+                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        <strong>Login Failed!</strong><br><br>User doesn't exist.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                    ";
         }
     }
-    else
+}
+
+class Logout
+{
+    function logout()
     {
-        echo "Error, code doesn't exist.";
+        $_SESSION = array();
+        session_unset();
+        session_destroy();
+        header("location: login");
+        exit;
+    }
+}
+
+class Wallet
+{
+    function getWalletCode($code)
+    {
+        require 'connect.php';
+        $wallet_query = "SELECT * FROM credit_code WHERE Code = '$code'";
+        $result = mysqli_query($conn, $wallet_query);
+        $numRows = mysqli_num_rows($result);
+        if ($numRows == 1) 
+        {
+            $walletCode = mysqli_fetch_assoc($result);
+            return $walletCode;
+        }
+    }
+    
+    function WalletCodeCheck($code)
+    {
+        require 'connect.php';
+        $walletCode = $this->getWalletCode($code);
+        logCheck_unregistered();
+        if($walletCode["Code"] == $code)
+        {
+            if($walletCode["Used"] == 0)
+            {
+                $user = getUserData($_SESSION["email"]);
+                    
+                $walletSQL = "UPDATE users SET Wallet= Wallet + '$walletCode[Amount]' WHERE Email='$user[Email]'";
+                $walletCodeSQL = "UPDATE credit_code SET Used = 1 WHERE Code = '$code'";
+    
+                if ($conn->query($walletSQL) === TRUE && $conn->query($walletCodeSQL) === TRUE)
+                {
+                    echo "Record updated successfully";
+                    header("refresh: 0");
+                }
+                else 
+                {
+                    echo "Error updating record: " . $conn->error;
+                }
+            }
+            else
+            {
+                echo "Code is used";
+            }
+        }
+        else
+        {
+            echo "Error, code doesn't exist.";
+        }
+    }
+}
+
+function nationalID_Upload()
+{
+    $file = $_FILES['file'];
+
+    $fileName = $_FILES['file']['name'];
+    $fileTmpName = $_FILES['file']['tmp_name'];
+    $fileSize = $_FILES['file']['size'];
+    $fileError = $_FILES['file']['error'];
+    $fileType = $_FILES['file']['type'];
+
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
+    
+    $allowed = array('jpeg','jpg','png','pdf');
+    if(in_array($fileActualExt, $allowed)){
+    if($fileError === 0)
+    {
+        if($fileSize < 1000000){
+        $fileNewName = uniqid('',true).".".$fileActualExt;
+        $fileDestination = 'components/assets/img/uploads/national_id'.$fileNewName;
+        move_uploaded_file($fileTmpName,$fileDestination);
+        } else {
+            echo "Your file is too big!";
+        }
+    } else{
+        echo "There was an error uploading this file, please try again!";
+    }
+    } else {
+        echo "ERROR! This type of file is not allowed!";
     }
 }
 
