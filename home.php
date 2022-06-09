@@ -167,17 +167,16 @@
                                 </li>
                         </ul>
 
-                        <form class="card p-2">
-                            <div class="d-grid gap-2">
+                        <div class="card p-2">
                                 <?php
                                 if (isset($_SESSION['cart'])) :
                                     if (count($_SESSION['cart']) > 0) :
                                 ?>
-                                        <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+                                        <a href="checkout" class="d-grid gap-2"><button type="submit" class="btn btn-success">Proceed</button></a>
                                 <?php endif;
                                 endif; ?>
-                            </div><?php endif; ?>
-                        </form>
+                            <?php endif; ?>
+                        </div>
                     <?php else : ?>
                         <hr>
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
