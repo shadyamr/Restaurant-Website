@@ -19,7 +19,7 @@
 
     if($_GET)
     {  
-        $userid = intval($_GET['id']);
+        $userid = $_GET["id"];
         switch($user["Access"])
         {
             case 0:
@@ -90,7 +90,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="qc_products">
+                    <a class="nav-link" href="qc_categories">
                     <span class="align-text-bottom"></span>
                     <i class="fa-solid fa-list"></i> Categories
                     </a>
@@ -109,7 +109,7 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Activation</h1>
             </div>
-                <table class="table">
+                <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

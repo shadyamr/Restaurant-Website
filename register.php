@@ -67,7 +67,8 @@
                                 else :
                                 ?>
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>Error!</strong><br><br> MySQL Error! Contact website administrator.
+                                        <strong>Error!</strong><br><br> MySQL Error! Contact website administrator. <br><br>
+                                        <?php echo $conn -> error;?>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                 <?php
@@ -132,7 +133,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="nationalid" class="sr-only">National ID</label>
+                        <label for="governorate" class="sr-only">Governorate</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                             <select class="form-select" aria-label="Default select example">

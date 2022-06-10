@@ -33,8 +33,8 @@
         }
 
         .custom_top_nav {
-            margin-top: -1px;
-            margin-bottom: -1px;
+            margin-top: 3px;
+            margin-bottom: 1px;
         }
 
         .feather {

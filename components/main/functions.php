@@ -109,27 +109,10 @@ class Login
                 $_SESSION["loggedin"] = true;
                 $_SESSION["email"] = $user["Email"];
                 $_SESSION['cart'] = array_values($_SESSION['cart']);
-                if ($user["Role"] == 1) 
-                {
-                    header("Location: waiter");
-                    echo "<script>
-                        window.location.replace('waiter');
-                    </script>";
-                } 
-                else if ($user["Role"] == 2) 
-                {
-                    header("Location: quality_control");
-                    echo "<script>
-                        window.location.replace('quality_control');
-                    </script>";
-                }
-                else 
-                {
-                    header("Location: home");
-                    echo "<script>
-                        window.location.replace('home');
-                    </script>";
-                }
+                header("Location: home");
+                echo "<script>
+                    window.location.replace('home');
+                </script>";
             }
             else 
             {
@@ -452,6 +435,34 @@ class Staff
             echo "<script>
                 window.location.replace('../home');
             </script>";
+        }
+    }
+    function checkAccDuplicate($username, $email)
+    {
+        require 'connect.php';
+        $user_check_query = "SELECT * FROM users WHERE Username='$username' OR Email='$email' LIMIT 1";
+        $result = mysqli_query($conn, $user_check_query);
+        $user = mysqli_fetch_assoc($result);
+
+        if ($user)
+        {
+            if (strtolower($user['Username']) === $username || strtolower($user['Email']) === $email)
+            {
+                die("
+                    <div class='alert alert-danger' role='alert'>
+                        <strong>Registration Incomplete!</strong><br><br>Email or Username is taken.
+                        <br><br>Page will be reloaded.
+                    </div>
+
+                    <script>
+                        setTimeout(function()
+                            {
+                                window.location.href = 'qc_accounts';
+                            }, 5000);
+                    </script>
+                    ");
+                header("refresh:5; url=qc_accounts");
+            }
         }
     }
 }
