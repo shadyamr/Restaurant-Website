@@ -25,6 +25,9 @@
         $formLastName = $_POST["lastname"];
         $formPassword = password_hash($_POST["password"], PASSWORD_BCRYPT);
         $formNationalID = $_POST["nationalid"];
+        $formAccess = $_POST["access"];
+        $formRole = $_POST["role"];
+        $formGov = $_POST["gov"];
 
         $staff->checkAccDuplicate($formUsername, $formEmail);
 
@@ -32,8 +35,8 @@
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) == false) 
         {
             $addQuery = "INSERT INTO users
-                (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, Wallet)
-                VALUES (NULL, '$formFirstName', '$formLastName', '$formUsername', '$formEmail','$formPassword', 0, 1, '$formNationalID', 0)";
+                (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, Wallet, Governorate)
+                VALUES (NULL, '$formFirstName', '$formLastName', '$formUsername', '$formEmail','$formPassword', '$formRole', '$formAccess', '$formNationalID', 0, '$formGov')";
             if($conn->query($addQuery))
             {
                 echo "works";
@@ -139,7 +142,7 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="actionDropdown">
                                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-circle-minus"></i> Delete</a></li>
+                                        <li><a class="dropdown-item" href="#deleteAcc" data-bs-toggle="modal" data-bs-target="#deleteAcc"><i class="fa-solid fa-circle-minus"></i> Delete</a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -179,12 +182,35 @@
                                     <input type="password" name="password" class="form-control" id="password" required>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select class="form-select" name="role" aria-label="role" required>
+                                        <option selected disabled>Rank</option>
+                                        <option value="0">User</option>
+                                        <option value="1">Waiter</option>
+                                        <option value="2">QC Manager</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="access" class="form-label">Access</label>
+                                    <select class="form-select" name="access" aria-label="access" required>
+                                        <option selected disabled>Access Type</option>
+                                        <option value="0">Unauthorized</option>
+                                        <option value="1">Authorized</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="nationalid" class="form-label">National ID</label>
                                     <input type="text" name="nationalid" class="form-control" id="nationalid" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="gov" class="form-label">Gov</label>
-                                    <input type="text" class="form-control" id="gov" required>
+                                    <label for="gov" class="form-label">Governorate</label>
+                                    <select class="form-select" name="gov" aria-label="gov" required>
+                                        <option selected disabled>Governorate</option>
+                                        <option value="Cairo">Cairo</option>
+                                        <option value="Suez">Suez</option>
+                                        <option value="Ismailia">Ismailia</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -194,6 +220,30 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="deleteAcc" tabindex="-1" aria-labelledby="deleteAccLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteAccLabel">Delete Account</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    Are you sure that you want to delete this account?
+                                    <br><br>
+                                    <strong><?php echo $user["FirstName"]; ?></strong>
+                                    <br><br>
+                                    If yes, please click on the red button.
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-danger" value="Delete">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </main>
         </div>
     </div>

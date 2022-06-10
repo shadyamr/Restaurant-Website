@@ -19,7 +19,7 @@
 
     if($_GET)
     {  
-        $userid = $_GET["id"];
+        $userid = $_GET["activate"];
         switch($user["Access"])
         {
             case 0:
@@ -134,13 +134,13 @@
                                     if($user["Access"] == 0)
                                     {
                                 ?>
-                                    <button class="btn btn-success btn-sm">Activate</button>
+                                    <a href="qc_activation?activate=<?php echo $user["ID"];?>"><button class="btn btn-success btn-sm">Activate</button></a>
                                 <?php
                                     }
                                     else
                                     {
                                 ?>
-                                    <button class="btn btn-danger btn-sm">Deactivate</button>
+                                    <a href="qc_activation?activate=<?php echo $user["ID"];?>"><button class="btn btn-danger btn-sm">Deactivate</button></a>
                                 <?php        
                                     }
                                 ?>
