@@ -29,9 +29,10 @@
     <div class="container">
         <main>
             <?php require_once "components/main/html_navbar.php";?>
-            <div class="p-3 mb-4 rounded-3">
-                <div class="container-fluid py-5">
-                    <h1 class="display-5 fw-bold">Welcome, <?php echo $user["FirstName"]?>!</h1>
+            <div class="p-2 mb-4 rounded-3">
+                <div class="container-fluid py-4">
+                    <img class="img-fluid z-depth-2" style="border-radius: 10%;" width="100px" height="100px" src="./components/assets/img/uploads/pp/<?php echo $user["ProfilePicture"];?>">
+                    <h1 class="display-5 fw-bold">Welcome, <?php echo $user["FirstName"]." ".$user["LastName"];?>!</h1>
                     <p class="col-md-8"><span class="badge bg-secondary"><?php echo $userAcc->account_type($user["Role"]);?></span> </p>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountInfo">
                         Account Information
@@ -54,12 +55,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row row-cols-lg-auto g-3 align-items-center">
-                            <div class="col-sm">
-                                <a target="_blank" href="./components/assets/img/uploads/pp/<?php echo $user["ProfilePicture"];?>"><img class="img-fluid rounded mx-auto d-block" width="100px" height="100px" src="./components/assets/img/uploads/pp/<?php echo $user["ProfilePicture"];?>"></a>
-                            </div>
-                        </div>
-                        <hr>
                         <div class="row row-cols-lg-auto g-3 align-items-center">
                             <div class="col-sm custom_mr_col">
                                 <label for="username" class="form-label"><b>Username</b></label>
