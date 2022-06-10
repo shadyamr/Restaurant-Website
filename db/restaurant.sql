@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2022 at 05:12 PM
+-- Generation Time: Jun 11, 2022 at 01:36 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -132,6 +132,31 @@ INSERT INTO `mainstock` (`MainID`, `MainName`, `MainPrice`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `ID` int(11) NOT NULL,
+  `Customer_ID` int(11) NOT NULL,
+  `OrderDetails` longtext NOT NULL,
+  `Total` int(11) NOT NULL,
+  `Method` int(11) NOT NULL,
+  `Processed` int(11) NOT NULL,
+  `Date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`ID`, `Customer_ID`, `OrderDetails`, `Total`, `Method`, `Processed`, `Date`) VALUES
+(1, 1, '\r\n            <b>Product:</b> Burger<br>\r\n            <b>Quantity:</b> 1<br><br>', 82, 1, 0, '2022-06-10 23:33:05'),
+(2, 2, '\r\n            <b>Product:</b>Pizza<br>\r\n            <b>Quantity:</b>1<br><br>', 60, 1, 0, '2022-06-10 23:23:38'),
+(4, 1, '\r\n            <b>Product:</b> Kebda<br>\r\n            <b>Quantity:</b> 5<br><br>', 100, 1, 0, '2022-06-10 23:30:36');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -203,11 +228,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Username`, `Email`, `Pass`, `Role`, `Access`, `National_ID`, `National_ID_Image`, `ProfilePicture`, `Wallet`, `Governorate`, `Comments`) VALUES
-(1, 'Shady', 'Amr', 'shady', 'shady@shady.com', '$2y$10$mBUl82lRFX570y9N81dCou8.5dokmgNP8ZT3Gr3CEYtojT.CVilK2', 2, 1, 2315, 'shady.jpg', 'shady.jpg', 0, 'Cairo', 'None'),
-(2, 'Ahmed', 'Hossam', 'xik', 'xik@xik.com', '$2y$10$Z2mgJgO6BuN0LaSBOxx5q.GbCm9qJ1Z4ETAo1fW5iL2W30spUQcaC', 0, 1, 123, '', '', 0, 'Suez', 'None'),
-(3, 'Seif', 'Hisham', 'seif', 'seif@seif.com', '$2y$10$lqjWHrmhia4FHuaczpgCluV9EyOkABNZ9PVVVk.PQWFQMmUlrUkP6', 0, 1, 123, '', '', 0, 'Cairo', 'None'),
-(4, 'Mostafa', 'Saleh', 'mo', 'mostafa@mostafa.com', '$2y$10$YnIah8kezGRB0ldZ58lR5eVdLB85xYLUeHfFagIScCY4b/ouXll5u', 1, 1, 123, '', '', 0, 'Cairo', 'None'),
-(5, 'Mahmoud', 'Osama', 'na3k4a', 'mahmoud@mahmoud.com', '$2y$10$MooTfCQJ/agPdgTSVTY83uAmLoCeFcTv6mRrFQ8s9EUzCHVFnM4j6', 1, 1, 123, '', '', 0, 'Cairo', 'None');
+(1, 'Shady', 'Amr', 'shady', 'shady@shady.com', '$2y$10$KCfG.wUz0s2X5wky.NzE1uAfcSxn8ZnL0FYrwpGw2IJFbg9WPEK8S', 2, 1, 2315, 'shady.jpg', 'shady.jpg', 0, 'Cairo', 'None'),
+(2, 'Ahmed', 'Hossam', 'xik', 'xik@xik.com', '$2y$10$Z2mgJgO6BuN0LaSBOxx5q.GbCm9qJ1Z4ETAo1fW5iL2W30spUQcaC', 0, 1, 123, '', 'default.jpg', 0, 'Suez', 'None'),
+(3, 'Seif', 'Hisham', 'seif', 'seif@seif.com', '$2y$10$lqjWHrmhia4FHuaczpgCluV9EyOkABNZ9PVVVk.PQWFQMmUlrUkP6', 0, 1, 123, '', 'default.jpg', 0, 'Cairo', 'None'),
+(4, 'Mostafa', 'Saleh', 'mo', 'mostafa@mostafa.com', '$2y$10$YnIah8kezGRB0ldZ58lR5eVdLB85xYLUeHfFagIScCY4b/ouXll5u', 1, 1, 123, '', 'default.jpg', 0, 'Cairo', 'None'),
+(5, 'Mahmoud', 'Osama', 'na3k4a', 'mahmoud@mahmoud.com', '$2y$10$MooTfCQJ/agPdgTSVTY83uAmLoCeFcTv6mRrFQ8s9EUzCHVFnM4j6', 1, 1, 123, '', 'default.jpg', 0, 'Cairo', 'None');
 
 --
 -- Indexes for dumped tables
@@ -244,6 +269,12 @@ ALTER TABLE `mainstock`
   ADD PRIMARY KEY (`MainID`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -275,7 +306,7 @@ ALTER TABLE `breadstock`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `componentstock`
@@ -296,10 +327,16 @@ ALTER TABLE `mainstock`
   MODIFY `MainID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `saucestock`
@@ -311,7 +348,7 @@ ALTER TABLE `saucestock`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
