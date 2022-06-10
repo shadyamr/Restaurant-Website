@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2022 at 11:31 PM
+-- Generation Time: Jun 10, 2022 at 03:46 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -103,23 +103,24 @@ CREATE TABLE `users` (
   `Username` varchar(64) NOT NULL,
   `Email` varchar(256) NOT NULL,
   `Pass` varchar(256) NOT NULL,
-  `Role` int(11) NOT NULL COMMENT 'User (0), Waiter (1), QC (2), Admin (3)',
+  `Role` int(11) NOT NULL COMMENT 'User (0), Waiter (1), QC (2)',
   `Access` int(11) NOT NULL,
   `National_ID` int(14) NOT NULL,
   `National_ID_Image` text NOT NULL,
-  `Wallet` int(50) NOT NULL
+  `ProfilePicture` text NOT NULL,
+  `Wallet` int(50) NOT NULL,
+  `Governorate` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Username`, `Email`, `Pass`, `Role`, `Access`, `National_ID`, `National_ID_Image`, `Wallet`) VALUES
-(1, 'Shady', 'Amr', 'admin', 'shady@shady.com', '$2y$10$0FWzXKHPiuLfcHMzgOWpCuRv0mTbpNwLty2q0CXN0MLXscn1ejfxy', 0, 1, 2147483647, '', 30),
-(2, 'shady2', 'shady2', 'shady2', 's@s.com', '$2y$10$6VmJy1HTQqLtsWozflQMreL1x3NGr8/HttpaePEkxvOpxGNi.Zov.', 0, 0, 2141414141, '', 10),
-(3, 'Ahmed', 'Hossam', '7ostest', 'ahmed7os@7os.com', '$2y$10$t59oYjJx0w2BlWQnxj.fd.ci48/tGZKThyUKsGSl1z06dCLrrOL02', 0, 0, 2147483647, '', 10),
-(4, 'Shady', 'Amr', 'shadytestaccount', 'shadyamr@testaccount.com', '$2y$10$dKq8hXO1vRv/quB05e8gFujyMlIVhBqIGQCf8kcSotagPXUYGrI4K', 0, 0, 2147483647, '', 10),
-(5, 'shadyy', 'amr', 'legionx', 'legionx@test.com', '$2y$10$pK.GI6mFn/4gElVrb0srGeD/QNF09WqeKusfQp4I5PRdOA1gJei.G', 0, 1, 2147483647, '', 10);
+INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Username`, `Email`, `Pass`, `Role`, `Access`, `National_ID`, `National_ID_Image`, `ProfilePicture`, `Wallet`, `Governorate`) VALUES
+(1, 'Shady', 'Amr', 'shady', 'shady@shady.com', '$2y$10$mBUl82lRFX570y9N81dCou8.5dokmgNP8ZT3Gr3CEYtojT.CVilK2', 2, 1, 2315, 'shady.jpg', 'shady.jpg', 0, 'Cairo'),
+(2, 'Ahmed', 'Hossam', 'xik', 'xik@xik.com', '$2y$10$Z2mgJgO6BuN0LaSBOxx5q.GbCm9qJ1Z4ETAo1fW5iL2W30spUQcaC', 0, 1, 123, '', '', 0, 'Suez'),
+(3, 'Seif', 'Hisham', 'seif', 'seif@seif.com', '$2y$10$lqjWHrmhia4FHuaczpgCluV9EyOkABNZ9PVVVk.PQWFQMmUlrUkP6', 0, 0, 123, '', '', 0, 'Cairo'),
+(4, 'Mostafa', 'Saleh', 'mo', 'mostafa@mostafa.com', '$2y$10$YnIah8kezGRB0ldZ58lR5eVdLB85xYLUeHfFagIScCY4b/ouXll5u', 1, 1, 123, '', '', 0, 'Cairo');
 
 --
 -- Indexes for dumped tables
@@ -175,7 +176,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
