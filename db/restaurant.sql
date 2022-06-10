@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2022 at 03:46 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: Jun 10, 2022 at 02:08 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `restaurant`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `breadstock`
+--
+
+CREATE TABLE `breadstock` (
+  `BreadID` int(10) NOT NULL,
+  `BreadName` varchar(10) NOT NULL,
+  `BreadPrice` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `breadstock`
+--
+
+INSERT INTO `breadstock` (`BreadID`, `BreadName`, `BreadPrice`) VALUES
+(1, 'Tortilla', 30),
+(2, 'White', 35),
+(3, 'Peta', 40);
 
 -- --------------------------------------------------------
 
@@ -42,6 +63,27 @@ INSERT INTO `categories` (`ID`, `Category`) VALUES
 (3, 'Lunch'),
 (4, 'Dinner'),
 (5, 'Compose a Sandwich');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `componentstock`
+--
+
+CREATE TABLE `componentstock` (
+  `VegetableID` int(10) NOT NULL,
+  `VegetableName` varchar(10) NOT NULL,
+  `VegetablePrice` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `componentstock`
+--
+
+INSERT INTO `componentstock` (`VegetableID`, `VegetableName`, `VegetablePrice`) VALUES
+(1, 'Tomato', 20),
+(2, 'Lettuce', 20),
+(3, 'Cucumber', 20);
 
 -- --------------------------------------------------------
 
@@ -69,6 +111,27 @@ INSERT INTO `credit_code` (`ID`, `Code`, `Amount`, `Used`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `mainstock`
+--
+
+CREATE TABLE `mainstock` (
+  `MainID` int(10) NOT NULL,
+  `MainName` varchar(10) NOT NULL,
+  `MainPrice` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mainstock`
+--
+
+INSERT INTO `mainstock` (`MainID`, `MainName`, `MainPrice`) VALUES
+(1, 'Meat', 50),
+(2, 'Chicken', 60),
+(3, 'Fish', 70);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -89,6 +152,27 @@ INSERT INTO `products` (`id`, `name`, `description`, `image`, `price`) VALUES
 (2, 'Pizza', 'Thin-crust pizza topped with chicken and mushrooms.', 'pizza.png', 60),
 (3, 'Pasta', 'Italian Pasta covered in red sauce and topped with fried chicken & cheese.', 'pasta.png', 50),
 (4, 'Kebda', 'Alexandrian Kebda topped with tahini sauce and chopped peppers in ficelle bread.', 'kebda.png', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `saucestock`
+--
+
+CREATE TABLE `saucestock` (
+  `SauceID` int(10) NOT NULL,
+  `SauceName` varchar(10) NOT NULL,
+  `SaucePrice` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `saucestock`
+--
+
+INSERT INTO `saucestock` (`SauceID`, `SauceName`, `SaucePrice`) VALUES
+(1, 'Ketchup', 10),
+(2, 'Mayo', 10),
+(3, 'Mustard', 10);
 
 -- --------------------------------------------------------
 
@@ -127,10 +211,22 @@ INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Username`, `Email`, `Pass`,
 --
 
 --
+-- Indexes for table `breadstock`
+--
+ALTER TABLE `breadstock`
+  ADD PRIMARY KEY (`BreadID`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `componentstock`
+--
+ALTER TABLE `componentstock`
+  ADD PRIMARY KEY (`VegetableID`);
 
 --
 -- Indexes for table `credit_code`
@@ -139,10 +235,22 @@ ALTER TABLE `credit_code`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `mainstock`
+--
+ALTER TABLE `mainstock`
+  ADD PRIMARY KEY (`MainID`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `saucestock`
+--
+ALTER TABLE `saucestock`
+  ADD PRIMARY KEY (`SauceID`);
 
 --
 -- Indexes for table `users`
@@ -155,10 +263,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `breadstock`
+--
+ALTER TABLE `breadstock`
+  MODIFY `BreadID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `componentstock`
+--
+ALTER TABLE `componentstock`
+  MODIFY `VegetableID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `credit_code`
@@ -167,10 +287,22 @@ ALTER TABLE `credit_code`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `mainstock`
+--
+ALTER TABLE `mainstock`
+  MODIFY `MainID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `saucestock`
+--
+ALTER TABLE `saucestock`
+  MODIFY `SauceID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
