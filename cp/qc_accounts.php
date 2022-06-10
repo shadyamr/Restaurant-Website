@@ -40,6 +40,7 @@
             if($conn->query($addQuery))
             {
                 echo "works";
+                header("refresh: 0");
             }
             else
             {

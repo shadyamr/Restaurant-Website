@@ -99,7 +99,7 @@
                             } ?>
                         </ul>
                     </div>
-                    <?php if (count($_SESSION['cart']) !== 0) : ?>
+                    <?php if (!empty($_SESSION['cart'])) : ?>
                         <hr>
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span id="cart" class="text-primary">Your cart</span>

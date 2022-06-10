@@ -25,6 +25,7 @@
                     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
                     $emailad = strtolower($_POST["email"]);
                     $nationalid = $_POST["nationalid"];
+                    $governorate = $_POST["governorate"];
 
                     $nationalID_img = new NationalID();
                     $nationalID_img->nationalID_Upload();
@@ -50,7 +51,7 @@
                             }
                             else
                             {
-                                $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, National_ID_Image, ProfilePicture, Wallet) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0, '$nationalid', '$nID_img', '$profilePic_img', 0)";
+                                $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, National_ID_Image, ProfilePicture, Wallet, Governorate) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0, '$nationalid', '$nID_img', '$profilePic_img', 0, '$governorate')";
                                 if ($conn->query($query) === TRUE) :
                                     $_SESSION["loggedin"] = true;
                                     $_SESSION["email"] = $email;
@@ -135,12 +136,12 @@
                     <div class="form-group">
                         <label for="governorate" class="sr-only">Governorate</label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Governorate</option>
-                                <option value="1">Cairo</option>
-                                <option value="2">Ismailia</option>
-                                <option value="3">Suez</option>
+                            <span class="input-group-text"><i class="fa-solid fa-earth-africa"></i></span>
+                            <select class="form-select" name="governorate" aria-label="Default select example">
+                                <option disabled selected>Governorate</option>
+                                <option value="Cairo">Cairo</option>
+                                <option value="Ismailia">Ismailia</option>
+                                <option value="Suez">Suez</option>
                             </select>
                         </div>
                     </div>
