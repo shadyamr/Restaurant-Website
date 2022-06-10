@@ -34,7 +34,7 @@
                     $pp_img->ProfilePicture_Upload();
 
                     $nID_img = $nationalID_img->nationalID_getFileName();
-                    $profilePic_img = $pp_img->ProfilePicture_getFileName();;
+                    $profilePic_img = $pp_img->ProfilePicture_getFileName();
 
                     $email = strtolower($_POST["email"]);
                     $email = filter_var($email, FILTER_SANITIZE_EMAIL);

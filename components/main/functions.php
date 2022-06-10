@@ -245,6 +245,95 @@ class Wallet
     }
 }
 
+class productImage
+{
+    public $fileNewName;
+    function productImage_Upload()
+    {
+        $file = $_FILES['file'];
+
+        $fileName = $_FILES['file']['name'];
+        $fileTmpName = $_FILES['file']['tmp_name'];
+        $fileSize = $_FILES['file']['size'];
+        $fileError = $_FILES['file']['error'];
+        $fileType = $_FILES['file']['type'];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+        
+        $allowed = array('jpeg','jpg','png','pdf');
+        if(in_array($fileActualExt, $allowed))
+        {
+            if($fileError === 0)
+            {
+                if($fileSize < 1000000)
+                {
+                    $fileNewName = uniqid('',true).".".$fileActualExt;
+                    $fileDestination = '../components/assets/img/uploads/'.$fileNewName;
+                    move_uploaded_file($fileTmpName, $fileDestination);
+                    $this->fileNewName = $fileNewName;
+                }
+                else
+                {
+                    die("
+                    <div class='alert alert-danger' role='alert'>
+                        <strong>Registration Incomplete!</strong><br><br>File is large.
+                        <br><br>Page will be reloaded.
+                    </div>
+        
+                    <script>
+                        setTimeout(function()
+                            {
+                                window.location.href = 'register';
+                            }, 5000);
+                    </script>
+                    ");
+                    header("refresh:5; url=register");
+                }
+            }
+            else
+            {
+                die("
+                <div class='alert alert-danger' role='alert'>
+                    <strong>Registration Incomplete!</strong><br><br>There was an error uploading this file.<br><br>Reloading the page.
+                    <br><br>Page will be reloaded.
+                </div>
+    
+                <script>
+                    setTimeout(function()
+                        {
+                            window.location.href = 'register';
+                        }, 5000);
+                </script>
+                ");
+                header("refresh:5; url=register");
+            }
+        }
+        else
+        {
+            die("
+            <div class='alert alert-danger' role='alert'>
+                <strong>Registration Incomplete!</strong><br><br>File type is not accepted.
+                <br><br>Page will be reloaded.
+            </div>
+
+            <script>
+                setTimeout(function()
+                    {
+                        window.location.href = 'register';
+                    }, 5000);
+            </script>
+            ");
+            header("refresh:5; url=register");
+        }
+    }
+
+    function productImage_getFileName()
+    {
+        return $this->fileNewName;
+    }
+}
+
 class NationalID
 {
     public $fileNewName;
@@ -480,6 +569,35 @@ class Staff
         }
     }
 
+    function checkProductDuplicate($productName)
+    {
+        require 'connect.php';
+        $product_check_query = "SELECT * FROM products WHERE name='$productName' LIMIT 1";
+        $result = mysqli_query($conn, $product_check_query);
+        $product = mysqli_fetch_assoc($result);
+
+        if ($product)
+        {
+            if (strtolower($product['name']) === strtolower($productName))
+            {
+                die("
+                    <div class='alert alert-danger' role='alert'>
+                        <strong>Error!</strong><br><br>An existing product with same name.
+                        <br><br>Page will be reloaded.
+                    </div>
+
+                    <script>
+                        setTimeout(function()
+                            {
+                                window.location.href = 'qc_products';
+                            }, 5000);
+                    </script>
+                    ");
+                header("refresh:5; url=qc_products");
+            }
+        }
+    }
+
     function updateUserComments($commentUserID, $comment)
     {
         require 'connect.php';
@@ -575,7 +693,13 @@ class Staff
                             VALUES (NULL, '$formFirstName', '$formLastName', '$formUsername', '$formEmail','$formPassword', '$formRole', '$formAccess', '$formNationalID', 0, '$formGov', 'None')";
                         if($conn->query($addQuery))
                         {
-                            header("refresh: 0");
+                            echo "
+                            <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                <strong>Created!</strong> Account has been created successfully.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>
+                            ";
+                            header("refresh: 1");
                         }
                         else
                         {
@@ -602,6 +726,102 @@ class Staff
                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                         </div>
                         ";
+                        header("refresh: 1");
+                    }
+                    else
+                    {
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Error!</strong> Contact the website administrator.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                    break;
+            }
+        }
+    }
+
+    function qcProductsSystem()
+    {
+        require 'connect.php';
+        if($_POST)
+        {
+            switch($_POST["submit"])
+            {
+                case "Create":
+                    $productName = $_POST["productName"];
+                    $productDescription = $_POST["productDescription"];
+                    $productCategory = $_POST["productCategory"];
+                    $productPrice = $_POST["productPrice"];
+
+                    $pImg = new productImage();
+                    $pImg->productImage_Upload();
+
+                    $productImg = $pImg->productImage_getFileName();
+            
+                    $this->checkProductDuplicate($productName);
+                    if(empty($productCategory) || !is_numeric($productPrice))
+                    {
+                        $productCategory = 0;
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Error!</strong> Category can not be default OR Price must be a number.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                        header("refresh: 1");
+                    }
+                    else
+                    {
+                        $addQuery = "INSERT INTO products
+                            (id, name, description, cat_id, image, price)
+                            VALUES (NULL, '$productName', '$productDescription', '$productCategory', '$productImg', '$productPrice')";
+                        if($conn->query($addQuery))
+                        {
+                            echo "
+                            <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                <strong>Created!</strong> Product has been created successfully.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>
+                            ";
+                            header("refresh: 1");
+                        }
+                        else
+                        {
+                            echo "
+                            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                <strong>Error!</strong> Contact the website administrator.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>
+                            ";
+                        }
+                    }
+                    break;
+                case "Edit":
+                    echo "test";
+                    break;
+                case "Delete":
+                    $deleteProductID = $_POST["delID"];
+                    $deleteProductQuery = "DELETE FROM products WHERE ID = '$deleteProductID'";
+                    if($conn->query($deleteProductQuery))
+                    {
+                        echo "
+                        <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                            <strong>Deleted!</strong> Product ID: ".$deleteProductID." has been deleted.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                        header("refresh: 1");
+                    }
+                    else
+                    {
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Error!</strong> Contact the website administrator.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
                     }
                     break;
             }
@@ -609,4 +829,39 @@ class Staff
     }
 }
 
+class Category
+{
+    function category_type($type)
+    {
+        require 'connect.php';
+        $categoryQuery = "SELECT * FROM categories";
+        $result = mysqli_query($conn, $categoryQuery);
+        $numRows = mysqli_num_rows($result);
+        if ($numRows == 1) 
+        {
+            $category = mysqli_fetch_assoc($result);
+        }
+
+        switch($type)
+        {
+            case 1:
+                echo "Drinks";
+                break;
+            case 2:
+                echo "Breakfast";
+                break;
+            case 3:
+                echo "Lunch";
+                break;
+            case 4:
+                echo "Dinner";
+                break;
+            case 5:
+                echo "Compose a Sandwich";
+                break;
+            default:
+                echo "Uncategorized";
+        }
+    }
+}
 ?>

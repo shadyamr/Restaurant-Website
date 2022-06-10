@@ -48,12 +48,6 @@
               </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="qc_reports">
-              <span class="align-text-bottom"></span>
-              <i class="fa-solid fa-chart-line"></i> Reports
-              </a>
-          </li>
-          <li class="nav-item">
               <a class="nav-link" href="qc_products">
               <span class="align-text-bottom"></span>
               <i class="fa-solid fa-cart-shopping"></i> Products
