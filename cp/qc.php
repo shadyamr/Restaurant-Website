@@ -16,6 +16,8 @@
 
     $staff = new Staff();
     $staff->qcCheck();
+
+    $stats = new qcStats();
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,7 +64,7 @@
           <li class="nav-item">
               <a class="nav-link" href="qc_accounts">
               <span class="align-text-bottom"></span>
-              <i class="fa-solid fa-user"></i> Accounts
+              <i class="fa-solid fa-users"></i> Accounts
               </a>
           </li>
           </ul>
@@ -72,6 +74,85 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
+      </div>
+      <div class="container">
+        <div class="row align-items-start">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <i class="fa-solid fa-user-check"></i> Activated Accounts
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center">
+                  <span class="badge rounded-pill bg-secondary"><?php echo $stats->countActivatedAccounts($conn);?></span>
+                </h5>
+                <p class="card-text"></p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <i class="fa-solid fa-user-large-slash"></i> Deactivated Accounts
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center">
+                  <span class="badge rounded-pill bg-secondary"><?php echo $stats->countDeactivatedAccounts($conn);?></span>
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <i class="fa-solid fa-user-clock"></i> Pending Accounts
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center">
+                  <span class="badge rounded-pill bg-secondary"><?php echo $stats->countPendingAccounts($conn);?></span>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 row align-items-start">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <i class="fa-solid fa-list"></i> Categories
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center">
+                  <span class="badge rounded-pill bg-secondary"><?php echo $stats->countCategories($conn);?></span>
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <i class="fa-brands fa-product-hunt"></i> Products
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center">
+                  <span class="badge rounded-pill bg-secondary"><?php echo $stats->countProducts($conn);?></span>
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <i class="fa-solid fa-users"></i> Accounts
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center">
+                  <span class="badge rounded-pill bg-secondary"><?php echo $stats->countUsers($conn);?></span>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>

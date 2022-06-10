@@ -957,4 +957,56 @@ class Category
         }
     }
 }
+
+class qcStats
+{
+    function countActivatedAccounts($conn)
+    {
+        $sql = "SELECT COUNT(Access) FROM users WHERE Access = 1";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countDeactivatedAccounts($conn)
+    {
+        $sql = "SELECT COUNT(Access) FROM users WHERE Access = 0 AND Comments != 'Pending Activation'";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countPendingAccounts($conn)
+    {
+        $sql = "SELECT COUNT(Access) FROM users WHERE Access = 0 AND Comments = 'Pending Activation'";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countCategories($conn)
+    {
+        $sql = "SELECT COUNT(id) FROM categories";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countProducts($conn)
+    {
+        $sql = "SELECT COUNT(id) FROM products";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countUsers($conn)
+    {
+        $sql = "SELECT COUNT(id) FROM users";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+}
+
 ?>
