@@ -827,6 +827,99 @@ class Staff
             }
         }
     }
+
+    function qcCategories()
+    {
+        require 'connect.php';
+        if($_POST)
+        {
+            switch($_POST["submit"])
+            {
+                case "Create":
+                    $categoryName = $_POST["categoryName"];
+            
+                    //$this->checkProductDuplicate($categoryName);
+                    $addQuery = "INSERT INTO categories
+                        (ID, Category)
+                        VALUES (NULL, '$categoryName')";
+                    if($conn->query($addQuery))
+                    {
+                        echo "
+                        <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                            <strong>Created!</strong> Category has been created successfully.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                        header("refresh: 1");
+                    }
+                    else
+                    {
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Error!</strong> Contact the website administrator.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                    break;
+                case "Edit":
+                    echo "test";
+                    break;
+                case "Delete":
+                    $deleteCategory = $_POST["deleteCategory"];
+                    $deleteCategoryQuery = "DELETE FROM categories WHERE ID = '$deleteCategory'";
+                    if($conn->query($deleteCategoryQuery))
+                    {
+                        echo "
+                        <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                            <strong>Deleted!</strong> Category ID: ".$deleteCategory." has been deleted.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                        header("refresh: 1");
+                    }
+                    else
+                    {
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Error!</strong> Contact the website administrator.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                    break;
+            }
+        }
+    }
+    
+    function checkCategoryDuplicate($categoryName)
+    {
+        require 'connect.php';
+        $category_check_query = "SELECT * FROM categories WHERE name='$categoryName' LIMIT 1";
+        $result = mysqli_query($conn, $category_check_query);
+        $category = mysqli_fetch_assoc($result);
+    
+        if ($category)
+        {
+            if (strtolower($category['name']) === strtolower($categoryName))
+            {
+                die("
+                    <div class='alert alert-danger' role='alert'>
+                        <strong>Error!</strong><br><br>An existing product with same name.
+                        <br><br>Page will be reloaded.
+                    </div>
+    
+                    <script>
+                        setTimeout(function()
+                            {
+                                window.location.href = 'qc_categories';
+                            }, 5000);
+                    </script>
+                    ");
+                header("refresh:5; url=qc_categories");
+            }
+        }
+    }
 }
 
 class Category
