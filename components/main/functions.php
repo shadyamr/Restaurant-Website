@@ -86,6 +86,19 @@ class User
             echo "Unauthorized";
         }
     }
+
+    function getUserDataByID($id)
+    {
+        require 'connect.php';
+        $user_check_query = "SELECT * FROM users WHERE ID='$id'";
+        $result = mysqli_query($conn, $user_check_query);
+        $numRows = mysqli_num_rows($result);
+        if ($numRows == 1) 
+        {
+            $user = mysqli_fetch_assoc($result);
+            return $user;
+        }
+    }
 }
 
 class Login
@@ -437,6 +450,7 @@ class Staff
             </script>";
         }
     }
+
     function checkAccDuplicate($username, $email)
     {
         require 'connect.php';
@@ -463,6 +477,63 @@ class Staff
                     ");
                 header("refresh:5; url=qc_accounts");
             }
+        }
+    }
+
+    function updateUserComments($commentUserID, $comment)
+    {
+        require 'connect.php';
+        $updateCommentQuery = "UPDATE users SET Comments = '$comment' WHERE ID='$commentUserID'";
+
+        if ($conn->query($updateCommentQuery) === TRUE)
+        {
+            echo "
+            <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                <strong>Updated!</strong> Your comment has been added for User ID: ".$commentUserID."
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
+            ";
+        }
+        else
+        {
+            echo "
+            <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                <strong>Error!</strong> Contact the website administrator.
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
+            ";
+        }
+    }
+
+    function userActivation($userid)
+    {
+        require 'connect.php';
+        $userAcc = new User();
+        $targetUser = $userAcc->getUserDataByID($userid);
+        switch($targetUser["Access"])
+        {
+            case 0:
+                $AccessQuery = "UPDATE users SET Access = 1 WHERE ID = '$userid'";
+                if($conn->query($AccessQuery))
+                {
+                    header("Refresh: 0; url=qc_activation");
+                }
+                else
+                {
+                    echo "false";
+                }
+                break;
+            case 1:
+                $noAccessQuery = "UPDATE users SET Access = 0 WHERE ID = '$userid'";
+                if($conn->query($noAccessQuery))
+                {
+                    header("Refresh: 0; url=qc_activation");
+                }
+                else
+                {
+                    echo "false";
+                }
+                break;
         }
     }
 }
