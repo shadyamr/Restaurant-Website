@@ -1,0 +1,64 @@
+body{
+    background-color: #ccc;
+}
+ form{
+    padding-top: 100px;
+    width: 300px;
+    margin:0 auto;
+ }
+form input, select, textarea{
+    border: none;
+    font-family: arial;
+    font-size: 16px;
+    color: #222;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+
+.form-error{
+    color: red;
+}
+.form-success{
+    color: green;
+}
+.input-error{
+    box-shadow:0 0 5px red;
+}
+.form-message{
+    font-family: arial;
+    font-size: 16xp;
+    font-weight: 600;
+    text-allign: center;
+}
+form select
+{
+    width: 100%;
+    height: 30px;
+    padding: 0px 3%;
+}
+form input{
+    width: 90%;
+    height: 30px;
+    padding: 0px 5%;
+}
+form textarea{
+    padding: 6px 5%;
+    width: 90%;
+    height: 100px;
+    resize: none;
+}
+form button{
+    width: 100%;
+    height: 40px;
+    background-color: #222;
+    border: none;
+    border-radius: 4xp;
+    font-family: arial;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+}
+form button:hover {
+    background-color: #444;
+}
