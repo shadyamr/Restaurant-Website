@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2022 at 02:08 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Jun 10, 2022 at 05:12 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -139,6 +139,7 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(256) NOT NULL,
+  `cat_id` int(10) NOT NULL,
   `image` varchar(100) NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -147,11 +148,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `image`, `price`) VALUES
-(1, 'Burger', 'Chargrilled premium 100% beef, topped with American cheese.', 'burger.png', 82),
-(2, 'Pizza', 'Thin-crust pizza topped with chicken and mushrooms.', 'pizza.png', 60),
-(3, 'Pasta', 'Italian Pasta covered in red sauce and topped with fried chicken & cheese.', 'pasta.png', 50),
-(4, 'Kebda', 'Alexandrian Kebda topped with tahini sauce and chopped peppers in ficelle bread.', 'kebda.png', 20);
+INSERT INTO `products` (`id`, `name`, `description`, `cat_id`, `image`, `price`) VALUES
+(1, 'Burger', 'Chargrilled premium 100% beef, topped with American cheese.', 4, 'burger.png', 82),
+(2, 'Pizza', 'Thin-crust pizza topped with chicken and mushrooms.', 4, 'pizza.png', 60),
+(3, 'Pasta', 'Italian Pasta covered in red sauce and topped with fried chicken & cheese.', 3, 'pasta.png', 50),
+(4, 'Kebda', 'Alexandrian Kebda topped with tahini sauce and chopped peppers in ficelle bread.', 3, 'kebda.png', 20);
 
 -- --------------------------------------------------------
 
@@ -193,18 +194,20 @@ CREATE TABLE `users` (
   `National_ID_Image` text NOT NULL,
   `ProfilePicture` text NOT NULL,
   `Wallet` int(50) NOT NULL,
-  `Governorate` varchar(20) NOT NULL
+  `Governorate` varchar(20) NOT NULL,
+  `Comments` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Username`, `Email`, `Pass`, `Role`, `Access`, `National_ID`, `National_ID_Image`, `ProfilePicture`, `Wallet`, `Governorate`) VALUES
-(1, 'Shady', 'Amr', 'shady', 'shady@shady.com', '$2y$10$mBUl82lRFX570y9N81dCou8.5dokmgNP8ZT3Gr3CEYtojT.CVilK2', 2, 1, 2315, 'shady.jpg', 'shady.jpg', 0, 'Cairo'),
-(2, 'Ahmed', 'Hossam', 'xik', 'xik@xik.com', '$2y$10$Z2mgJgO6BuN0LaSBOxx5q.GbCm9qJ1Z4ETAo1fW5iL2W30spUQcaC', 0, 1, 123, '', '', 0, 'Suez'),
-(3, 'Seif', 'Hisham', 'seif', 'seif@seif.com', '$2y$10$lqjWHrmhia4FHuaczpgCluV9EyOkABNZ9PVVVk.PQWFQMmUlrUkP6', 0, 0, 123, '', '', 0, 'Cairo'),
-(4, 'Mostafa', 'Saleh', 'mo', 'mostafa@mostafa.com', '$2y$10$YnIah8kezGRB0ldZ58lR5eVdLB85xYLUeHfFagIScCY4b/ouXll5u', 1, 1, 123, '', '', 0, 'Cairo');
+INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Username`, `Email`, `Pass`, `Role`, `Access`, `National_ID`, `National_ID_Image`, `ProfilePicture`, `Wallet`, `Governorate`, `Comments`) VALUES
+(1, 'Shady', 'Amr', 'shady', 'shady@shady.com', '$2y$10$mBUl82lRFX570y9N81dCou8.5dokmgNP8ZT3Gr3CEYtojT.CVilK2', 2, 1, 2315, 'shady.jpg', 'shady.jpg', 0, 'Cairo', 'None'),
+(2, 'Ahmed', 'Hossam', 'xik', 'xik@xik.com', '$2y$10$Z2mgJgO6BuN0LaSBOxx5q.GbCm9qJ1Z4ETAo1fW5iL2W30spUQcaC', 0, 1, 123, '', '', 0, 'Suez', 'None'),
+(3, 'Seif', 'Hisham', 'seif', 'seif@seif.com', '$2y$10$lqjWHrmhia4FHuaczpgCluV9EyOkABNZ9PVVVk.PQWFQMmUlrUkP6', 0, 1, 123, '', '', 0, 'Cairo', 'None'),
+(4, 'Mostafa', 'Saleh', 'mo', 'mostafa@mostafa.com', '$2y$10$YnIah8kezGRB0ldZ58lR5eVdLB85xYLUeHfFagIScCY4b/ouXll5u', 1, 1, 123, '', '', 0, 'Cairo', 'None'),
+(5, 'Mahmoud', 'Osama', 'na3k4a', 'mahmoud@mahmoud.com', '$2y$10$MooTfCQJ/agPdgTSVTY83uAmLoCeFcTv6mRrFQ8s9EUzCHVFnM4j6', 1, 1, 123, '', '', 0, 'Cairo', 'None');
 
 --
 -- Indexes for dumped tables
@@ -308,7 +311,7 @@ ALTER TABLE `saucestock`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
