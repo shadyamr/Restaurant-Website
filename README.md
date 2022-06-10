@@ -6,6 +6,6 @@ To be done
 * Orders system ft. categories, meals, additions, and customize.
 * Rating system (tbi)
 * Logging system
-* ReactJS
+* ReactJS (tbi)
 
 tbi = to be integrated
