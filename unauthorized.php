@@ -11,6 +11,8 @@
     
     $userAcc->authorized();
     $userAcc->logCheck_unregistered();
+
+    $user = $userAcc->getUserData($_SESSION["email"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,8 +33,8 @@
         </a>
         </header>
 
-        <div class="p-2 mb-4 bg-light rounded-3">
-            <div class="container-fluid py-2">
+        <div class="mb-4 bg-light rounded-3">
+            <div class="container-fluid">
                 <div class="card">
                     <div class="card-header text-center">
                         <img src="./components/assets/img/error.png">
@@ -45,8 +47,9 @@
                             <ul>
                                 <li>Account is not activated by <strong>Quality Control</strong>.</li>
                                 <li>Account is disabled for security purposes.</li>
-                            </ul>
-                            <br>
+                            </ul><br>
+                            <strong>Comments:</strong> <?php echo $user["Comments"]?>
+                            <br><br>
                             If you are not sure what's wrong, feel free to contact the Quality Control by clicking the link below.
                             <br><br>
                             <div class="text-end"><a href="contact">Contact the Quality Control <i class="fas fa-arrow-circle-right"></i></a></div>

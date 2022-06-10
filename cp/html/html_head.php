@@ -42,6 +42,14 @@
             height: 16px;
         }
 
+        @media (max-width: 767px)
+        {
+            .mobilebtn
+            {
+                margin-top: 4px;
+            }
+        }
+
         /*
         * Sidebar
         */

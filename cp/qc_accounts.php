@@ -35,8 +35,8 @@
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) == false) 
         {
             $addQuery = "INSERT INTO users
-                (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, Wallet, Governorate)
-                VALUES (NULL, '$formFirstName', '$formLastName', '$formUsername', '$formEmail','$formPassword', '$formRole', '$formAccess', '$formNationalID', 0, '$formGov')";
+                (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, Wallet, Governorate, Comments)
+                VALUES (NULL, '$formFirstName', '$formLastName', '$formUsername', '$formEmail','$formPassword', '$formRole', '$formAccess', '$formNationalID', 0, '$formGov', 'None')";
             if($conn->query($addQuery))
             {
                 echo "works";

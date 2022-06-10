@@ -32,18 +32,18 @@
                 <div class="container-fluid py-5">
                     <h1 class="display-5 fw-bold">Welcome, <?php echo $user["FirstName"]?>!</h1>
                     <p class="col-md-8"><span class="badge bg-secondary"><?php echo $userAcc->account_type($user["Role"]);?></span> </p>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountInfo">
                         Account Information
                     </button>
                     <a class="btn btn-danger" type="button" href="logout">Logout</a>
                 </div>
             </div>
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="accountInfo" tabindex="-1" aria-labelledby="accountInfoLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="exampleModalLabel">Account Information</h3>
+                        <h3 class="modal-title" id="accountInfoLabel">Account Information</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

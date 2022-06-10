@@ -18,33 +18,9 @@
     $staff->qcCheck();
 
     if($_GET)
-    {  
-        $userid = $_GET["activate"];
-        switch($user["Access"])
-        {
-            case 0:
-                $AccessQuery = "UPDATE users SET Access = 1 WHERE ID = '$userid'";
-                if($conn->query($AccessQuery))
-                {
-                    echo "true";
-                }
-                else
-                {
-                    echo "false";
-                }
-                break;
-            case 1:
-                $noAccessQuery = "UPDATE users SET Access = 0 WHERE ID = '$userid'";
-                if($conn->query($noAccessQuery))
-                {
-                    echo "true";
-                }
-                else
-                {
-                    echo "false";
-                }
-                break;
-        }
+    {
+        $userid = $_GET["activation"];
+        $staff->userActivation($userid);
     }
 ?>
 <!DOCTYPE html>
@@ -109,7 +85,7 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Activation</h1>
             </div>
-                <table class="table table-hover table-bordered">
+                <table class="table table-responsive table-hover table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -122,39 +98,79 @@
                         <?php
                             $listUsers = "SELECT * FROM users";
                             $result = mysqli_query($conn, $listUsers);
-                            while($user = mysqli_fetch_array($result))
+                            while($lUsers = mysqli_fetch_array($result))
                             {
                         ?>
                         <tr>
-                            <th scope="row"><?php echo $user["ID"]; ?></th>
-                            <td><?php echo $user["FirstName"]." ".$user["LastName"];?></td>
-                            <td><?php echo $user["Email"];?></td>
-                            <td>
+                            <th scope="row"><?php echo $lUsers["ID"]; ?></th>
+                            <td><?php echo $lUsers["FirstName"]." ".$lUsers["LastName"];?></td>
+                            <td><?php echo $lUsers["Email"];?></td>
+                            <td width="20%">
                                 <?php
-                                    if($user["Access"] == 0)
+                                    if($lUsers["Access"] == 0)
                                     {
                                 ?>
-                                    <a href="qc_activation?activate=<?php echo $user["ID"];?>"><button class="btn btn-success btn-sm">Activate</button></a>
+                                    <a href="qc_activation?activation=<?php echo $lUsers["ID"];?>"><button class="btn btn-success btn-sm">Activate</button></a>
                                 <?php
                                     }
                                     else
                                     {
                                 ?>
-                                    <a href="qc_activation?activate=<?php echo $user["ID"];?>"><button class="btn btn-danger btn-sm">Deactivate</button></a>
+                                    <a href="qc_activation?activation=<?php echo $lUsers["ID"];?>"><button class="btn btn-danger btn-sm">Deactivate</button></a>
                                 <?php        
                                     }
                                 ?>
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#comments_<?php echo $lUsers["ID"]?>">
+                                        Comments
+                                    </button>
                             </td>
                         </tr>
+                        <div class="modal fade" id="comments_<?php echo $lUsers["ID"]?>" tabindex="-1" aria-labelledby="commentsLabel_<?php echo $lUsers["ID"]?>" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="commentsLabel_<?php echo $lUsers["ID"]?>">Comments — User ID: <?php echo $lUsers["ID"]?></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                            What do you want to write in the users' comments?
+                                            <form method="POST" action="qc_activation">
+                                                <input class="form-control mt-2 mb-2" type="text" name="uID" id="uID" value="<?php echo $lUsers["ID"]?>" readonly>
+                                                <input class="form-control mb-2" type="text" name="uComments" id="uComments" placeholder="Comments" required>
+                                            If done, please submit it.
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" class="btn btn-success" value="Submit">
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <?php
                             }
                         ?>
                     </tbody>
                 </table>
+                <?php
+                    if($_POST)
+                    {
+                        $commentUserID = $_POST["uID"];
+                        $comment = $_POST["uComments"];
+                        $staff->updateUserComments($commentUserID, $comment);
+                    }
+                ?>
             </main>
         </div>
     </div>
     
-    <script>document.title = "CairoGRND | QC Panel"</script>
+    <script>
+        if (window.history.replaceState)
+        {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        document.title = "CairoGRND | QC Panel"
+    </script>
   </body>
 </html>

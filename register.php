@@ -51,7 +51,7 @@
                             }
                             else
                             {
-                                $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, National_ID_Image, ProfilePicture, Wallet, Governorate) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0, '$nationalid', '$nID_img', '$profilePic_img', 0, '$governorate')";
+                                $query = "INSERT INTO users (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, National_ID_Image, ProfilePicture, Wallet, Governorate, Comments) VALUES (NULL, '$firstname', '$lastname', '$username', '$emailad','$hashed_password', 0, 0, '$nationalid', '$nID_img', '$profilePic_img', 0, '$governorate', 'Pending Activation')";
                                 if ($conn->query($query) === TRUE) :
                                     $_SESSION["loggedin"] = true;
                                     $_SESSION["email"] = $email;
