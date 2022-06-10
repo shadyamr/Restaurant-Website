@@ -185,7 +185,6 @@
                                         <option value="1">Authorized</option>
                                     </select>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="nationalid" class="form-label">National ID</label>
                                     <input type="text" name="nationalid" class="form-control" id="nationalid" required>

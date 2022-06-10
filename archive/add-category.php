@@ -87,7 +87,7 @@ require 'components/main/connect.php';
                 $.ajax({
                     url:"fetch.php",
                     type:"post",
-                    data:'request=' + value;
+                    data:'request=' + value,
                     beforesend:function(){
                         $(".container").html("<span>working...</span>");
                     },

@@ -99,6 +99,135 @@ class User
             return $user;
         }
     }
+
+    function UpdateUserAccount()
+    {
+        require 'connect.php';
+        $user = $this->getUserData($_SESSION["email"]);
+
+        $myAccount_username = strtolower($_POST["username"]);
+        $myAccount_email = strtolower($_POST["email"]);
+        $myAccount_firstname = $_POST["firstname"];
+        $myAccount_lastname = $_POST["lastname"];
+        $myAccount_password = $_POST["password"];
+        $myAccount_governorate = $_POST["governorate"];
+        $myAccount_confirmpassword = $_POST["confirmpassword"];
+
+        $currentEmail = $_SESSION["email"];
+        
+        $this->checkAccDuplicate($myAccount_username, $myAccount_email);
+        if(password_verify($myAccount_confirmpassword, $user['Pass']))
+        { 
+            if(
+                $myAccount_governorate == "" || $myAccount_username == ""
+                || $myAccount_email == "" || $myAccount_firstname == ""
+                || $myAccount_lastname == "")
+            {
+                echo "
+                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    <strong>Error!</strong> Couldn't update the account, please enter your information correctly
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>
+                ";
+                header("Refresh: 1");
+            }
+            else
+            {
+                if($myAccount_password == "")
+                {
+                    $updateAccQuery = "UPDATE users
+                    SET FirstName = '$myAccount_firstname', LastName = '$myAccount_lastname', Username = '$myAccount_username', Email = '$myAccount_email', Governorate = '$myAccount_governorate'
+                    WHERE Email = '$currentEmail'";
+                    if($conn->query($updateAccQuery))
+                    {
+                        $_SESSION["email"] = $myAccount_email;
+                        echo "
+                        <div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
+                            <strong>Updated!</strong> Your account information has been updated.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                    else
+                    {
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                            <strong>Error!</strong> Contact the website administrator
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                }
+                else
+                {
+                    $myAccount_hashedpassword = password_hash($myAccount_password, PASSWORD_BCRYPT);
+                    $updateAccQuery = "UPDATE users
+                    SET FirstName = '$myAccount_firstname', LastName = '$myAccount_lastname', Username = '$myAccount_username', Email = '$myAccount_email', Pass = '$myAccount_hashedpassword', Governorate = '$myAccount_governorate'
+                    WHERE Email = '$currentEmail'";
+                    if($conn->query($updateAccQuery))
+                    {
+                        $_SESSION["email"] = $myAccount_email;
+                        echo "
+                        <div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
+                            <strong>Updated!</strong> Your account information has been updated.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                    else
+                    {
+                        echo "
+                        <div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                            <strong>Error!</strong> Contact the website administrator
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                }
+            }
+        }
+        else
+        {
+            echo "
+            <div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                <strong>Error!</strong> The current password you entered is incorrect.
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
+            ";
+        }
+    }
+
+    function checkAccDuplicate($username, $email)
+    {
+        require 'connect.php';
+        $user_check_query = "SELECT * FROM users WHERE Username='$username' OR Email='$email' LIMIT 1";
+        $result = mysqli_query($conn, $user_check_query);
+        $user = mysqli_fetch_assoc($result);
+
+        if ($user) 
+        {
+            if(!($email == $_SESSION["email"]))
+            {
+                if (strtolower($user['Email']) === $email)
+                {
+                    echo "
+                    <div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                        <strong>Error!</strong> An existing account with the same username or email.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+
+                    <script>
+                        setTimeout(function()
+                        {
+                                window.location.href = 'register';
+                        }, 5000);
+                    </script>
+                    ";
+                    header("refresh:5; url=register");
+                }
+            }
+        }
+    }
 }
 
 class Login
