@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     session_start();
     require '../components/main/connect.php';
     require '../components/main/functions.php';
@@ -16,38 +17,6 @@
 
     $staff = new Staff();
     $staff->qcCheck();
-
-    if($_POST)
-    {
-        $formUsername = strtolower($_POST["username"]);
-        $formEmail = strtolower($_POST["email"]);
-        $formFirstName = $_POST["firstname"];
-        $formLastName = $_POST["lastname"];
-        $formPassword = password_hash($_POST["password"], PASSWORD_BCRYPT);
-        $formNationalID = $_POST["nationalid"];
-        $formAccess = $_POST["access"];
-        $formRole = $_POST["role"];
-        $formGov = $_POST["gov"];
-
-        $staff->checkAccDuplicate($formUsername, $formEmail);
-
-        $email = filter_var($formEmail, FILTER_SANITIZE_EMAIL);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) == false) 
-        {
-            $addQuery = "INSERT INTO users
-                (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, Wallet, Governorate, Comments)
-                VALUES (NULL, '$formFirstName', '$formLastName', '$formUsername', '$formEmail','$formPassword', '$formRole', '$formAccess', '$formNationalID', 0, '$formGov', 'None')";
-            if($conn->query($addQuery))
-            {
-                echo "works";
-                header("refresh: 0");
-            }
-            else
-            {
-                echo "error";
-            }
-        }
-    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -129,13 +98,13 @@
                         <?php
                             $listUsers = "SELECT * FROM users";
                             $result = mysqli_query($conn, $listUsers);
-                            while($user = mysqli_fetch_array($result))
+                            while($lUsers = mysqli_fetch_array($result))
                             {
                         ?>
                         <tr>
-                            <th scope="row"><?php echo $user["ID"]; ?></th>
-                            <td><?php echo $user["FirstName"]." ".$user["LastName"];?></td>
-                            <td><?php echo $user["Email"];?></td>
+                            <th scope="row"><?php echo $lUsers["ID"]; ?></th>
+                            <td><?php echo $lUsers["FirstName"]." ".$lUsers["LastName"];?></td>
+                            <td><?php echo $lUsers["Email"];?></td>
                             <td>
                                 <div class="btn-group dropend">
                                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -143,11 +112,34 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="actionDropdown">
                                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
-                                        <li><a class="dropdown-item" href="#deleteAcc" data-bs-toggle="modal" data-bs-target="#deleteAcc"><i class="fa-solid fa-circle-minus"></i> Delete</a></li>
+                                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteAcc_<?php echo $lUsers["ID"]?>"><i class="fa-solid fa-circle-minus"></i> Delete</button></li>
                                     </ul>
                                 </div>
                             </td>
                         </tr>
+                        <div class="modal fade" id="deleteAcc_<?php echo $lUsers["ID"];?>" tabindex="-1" aria-labelledby="deleteAccLabel_<?php echo $lUsers["ID"];?>" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteAccLabel_<?php echo $lUsers["ID"];?>">Delete Account - User ID: <?php echo $lUsers["ID"];?></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                            Are you sure that you want to delete this account?
+                                            <form method="POST" action="qc_accounts">
+                                                <input class="form-control mb-2 mt-2" value="<?php echo $lUsers["ID"];?>" name="delID" type="text" readonly>
+                                                <input class="form-control mb-2" type="text" value="<?php echo $lUsers["FirstName"]." ".$lUsers["LastName"];?>" disabled>
+                                            If yes, please click on the red button.
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" name="submit" class="btn btn-danger" value="Delete">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <?php
                             }
                         ?>
@@ -215,36 +207,15 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="submit" class="btn btn-success">
+                                <input type="submit" name="submit" value="Create" class="btn btn-success">
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="modal fade" id="deleteAcc" tabindex="-1" aria-labelledby="deleteAccLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteAccLabel">Delete Account</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>
-                                    Are you sure that you want to delete this account?
-                                    <br><br>
-                                    <strong><?php echo $user["FirstName"]; ?></strong>
-                                    <br><br>
-                                    If yes, please click on the red button.
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="submit" class="btn btn-danger" value="Delete">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <?php
+                    $staff->qcAccountSystem();
+                ?>
             </main>
         </div>
     </div>

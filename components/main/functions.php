@@ -497,7 +497,7 @@ class Staff
         else
         {
             echo "
-            <div class='alert alert-success alert-dismissible fade show' role='alert'>
+            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                 <strong>Error!</strong> Contact the website administrator.
                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
             </div>
@@ -520,7 +520,12 @@ class Staff
                 }
                 else
                 {
-                    echo "false";
+                    echo "
+                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        <strong>Error!</strong> Contact the website administrator.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                    ";
                 }
                 break;
             case 1:
@@ -531,9 +536,75 @@ class Staff
                 }
                 else
                 {
-                    echo "false";
+                    echo "
+                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        <strong>Error!</strong> Contact the website administrator.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                    ";
                 }
                 break;
+        }
+    }
+
+    function qcAccountSystem()
+    {
+        require 'connect.php';
+        if($_POST)
+        {
+            switch($_POST["submit"])
+            {
+                case "Create":
+                    $formUsername = strtolower($_POST["username"]);
+                    $formEmail = strtolower($_POST["email"]);
+                    $formFirstName = $_POST["firstname"];
+                    $formLastName = $_POST["lastname"];
+                    $formPassword = password_hash($_POST["password"], PASSWORD_BCRYPT);
+                    $formNationalID = $_POST["nationalid"];
+                    $formAccess = $_POST["access"];
+                    $formRole = $_POST["role"];
+                    $formGov = $_POST["gov"];
+            
+                    $this->checkAccDuplicate($formUsername, $formEmail);
+            
+                    $email = filter_var($formEmail, FILTER_SANITIZE_EMAIL);
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL) == false) 
+                    {
+                        $addQuery = "INSERT INTO users
+                            (ID, FirstName, LastName, Username, Email, Pass, Role, Access, National_ID, Wallet, Governorate, Comments)
+                            VALUES (NULL, '$formFirstName', '$formLastName', '$formUsername', '$formEmail','$formPassword', '$formRole', '$formAccess', '$formNationalID', 0, '$formGov', 'None')";
+                        if($conn->query($addQuery))
+                        {
+                            header("refresh: 0");
+                        }
+                        else
+                        {
+                            echo "
+                            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                <strong>Error!</strong> Contact the website administrator.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>
+                            ";
+                        }
+                    }
+                    break;
+                case "Edit":
+                    echo "test";
+                    break;
+                case "Delete":
+                    $deleteUserID = $_POST["delID"];
+                    $deleteUserQuery = "DELETE FROM users WHERE ID = '$deleteUserID'";
+                    if($conn->query($deleteUserQuery))
+                    {
+                        echo "
+                        <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                            <strong>Deleted!</strong> User ID: ".$deleteUserID." has been deleted.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+                    }
+                    break;
+            }
         }
     }
 }
