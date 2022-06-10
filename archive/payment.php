@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- custom css file link  -->
-    <link rel="stylesheet" href="../RESTAURANT-WEBSITE/payment.css">
+    <link rel="stylesheet" href="payment.css">
 
 </head>
 <body>
