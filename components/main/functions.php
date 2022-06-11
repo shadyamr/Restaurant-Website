@@ -1202,45 +1202,82 @@ class Waiter
 {
     function deleteOrder()
     {
+        require 'connect.php';
+
         if($_POST)
         {
-            require 'connect.php';
-
-            $temp = $_POST["mPIN"];
-            $managerpin = $this->getManagerPIN(1);
-
-            if($temp == $managerpin["PIN"])
+            switch($_POST["submit"])
             {
-                $delOrderID = $_POST["delID"];
-                $delOrderQuery = "DELETE FROM orders WHERE ID = '$delOrderID'";
-                if($conn->query($delOrderQuery))
-                {
-                    echo "
-                    <div class='alert alert-success alert-dismissible fade show' role='alert'>
-                        <strong>Deleted!</strong> Order ID: ".$delOrderID." has been deleted.
-                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                    </div>
-                    ";
-                    header("refresh: 1");
-                }
-                else
-                {
-                    echo "
-                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                        <strong>Error!</strong> Contact the website administrator.
-                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                    </div>
-                    ";
-                }
-            }
-            else
-            {
-                echo "
-                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                    <strong>Error!</strong> Manager PIN is wrong.
-                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                </div>
-                ";
+                case "Edit":
+                        $temp = $_POST["orderManagerPIN"];
+                        $managerpin = $this->getManagerPIN(1);
+                        if($temp == $managerpin["PIN"])
+                        {
+                            $orderEditID = $_POST["orderEditID"];
+                            $orderDetails = $_POST["orderDetails"];
+                            $orderTotal = $_POST["orderTotal"];
+                            $orderStatus = $_POST["orderStatus"];
+                            $updateOrderQuery = "UPDATE orders SET 
+                                OrderDetails = '$orderDetails', Total = '$orderTotal', Processed = '$orderStatus'
+                                WHERE ID = '$orderEditID'";
+                            if($conn->query($updateOrderQuery))
+                            {
+                                echo "
+                                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                    <strong>Edited!</strong> Order ID: ".$orderEditID." has been edited.
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>
+                                ";
+                                header("refresh: 1");
+                            }
+                            else
+                            {
+                                echo "
+                                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                    <strong>Error!</strong> Contact the website administrator.
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>
+                                ";
+                            }
+                        }
+                    break;
+                case "Delete":
+                        $temp = $_POST["mPIN"];
+                        $managerpin = $this->getManagerPIN(1);
+                        if($temp == $managerpin["PIN"])
+                        {
+                            $delOrderID = $_POST["delID"];
+                            $delOrderQuery = "DELETE FROM orders WHERE ID = '$delOrderID'";
+                            if($conn->query($delOrderQuery))
+                            {
+                                echo "
+                                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                    <strong>Deleted!</strong> Order ID: ".$delOrderID." has been deleted.
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>
+                                ";
+                                header("refresh: 1");
+                            }
+                            else
+                            {
+                                echo "
+                                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                    <strong>Error!</strong> Contact the website administrator.
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>
+                                ";
+                            }
+                        }
+                        else
+                        {
+                            echo "
+                            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                <strong>Error!</strong> Manager PIN is wrong.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>
+                            ";
+                        }
+                    break;
             }
         }
     }

@@ -13,9 +13,6 @@
                         <a class="nav-link" aria-current="page" href="home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="offers">Offers</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="contact">Contact</a>
                     </li>
                     <li class="nav-item dropdown">

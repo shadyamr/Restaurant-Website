@@ -77,7 +77,7 @@
             <div class="col">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa-solid fa-user-check"></i> Pending Orders
+                <i class="fa-solid fa-circle-pause"></i> Pending Orders
                 </div>
                 <div class="card-body">
                   <h5 class="card-title text-center">
@@ -90,7 +90,7 @@
             <div class="col">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa-solid fa-user-large-slash"></i> Processed Orders
+                <i class="fa-solid fa-circle-check"></i> Processed Orders
                 </div>
                 <div class="card-body">
                   <h5 class="card-title text-center">
@@ -102,7 +102,7 @@
             <div class="col">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa-solid fa-user-clock"></i> Canceled Orders
+                <i class="fa-solid fa-circle-xmark"></i> Canceled Orders
                 </div>
                 <div class="card-body">
                   <h5 class="card-title text-center">

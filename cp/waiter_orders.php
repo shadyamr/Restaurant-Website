@@ -101,7 +101,7 @@
                                             Action
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="actionDropdown">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
+                                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editProduct_<?php echo $order["ID"] ?>"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
                                             <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteProduct_<?php echo $order["ID"] ?>"><i class="fa-solid fa-circle-minus"></i> Delete</button></li>
                                         </ul>
                                     </div>
@@ -125,6 +125,45 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" name="submit" class="btn btn-danger" value="Delete">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="editProduct_<?php echo $order["ID"]; ?>" tabindex="-1" aria-labelledby="editProductL_<?php echo $order["ID"]; ?>" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editProduct_<?php echo $order["ID"]; ?>">Edit Order - Order ID: <?php echo $order["ID"]; ?></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                Edit the order and submit once you're done.<br><br>
+                                            <form method="POST" action="waiter_orders">
+                                                <label><strong>Order ID:</strong></label>
+                                                <input class="form-control mb-2 mt-2" value="<?php echo $order["ID"]; ?>" name="orderEditID" type="text" readonly>
+                                                <label><strong>Manager PIN:</strong></label>
+                                                <input class="form-control mb-2 mt-2" name="orderManagerPIN" type="text" placeholder="Manager PIN">
+                                                <label><strong>Order Details:</strong></label>
+                                                <textarea class="form-control mb-2" name="orderDetails" id="orderDetails" required><?php echo $order["OrderDetails"]?></textarea>
+                                                <label><strong>Total:</strong></label>
+                                                <input class="form-control mb-2 mt-2" name="orderTotal" type="text" value="<?php echo $order["Total"]; ?>" placeholder="Total Amount">
+                                                <label><strong>Status:</strong></label>
+                                                <select class="form-select" name="orderStatus" aria-label="orderStatus" required>
+                                                    <option selected disabled>Status</option>
+                                                    <option value="0">Pending</option>
+                                                    <option value="1">Processed</option>
+                                                    <option value="2">Canceled</option>
+                                                </select>
+                                                <div class="alert alert-warning" role="alert">
+                                                    <i class="fa-solid fa-circle-info"></i> Please follow up with the customer.
+                                                </div>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="submit" class="btn btn-success" value="Edit">
                                             </form>
                                         </div>
                                     </div>
