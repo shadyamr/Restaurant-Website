@@ -1174,4 +1174,65 @@ class Orders
     }
 }
 
+class Waiter
+{
+    function deleteOrder()
+    {
+        if($_POST)
+        {
+            require 'connect.php';
+
+            $temp = $_POST["mPIN"];
+            $managerpin = $this->getManagerPIN(1);
+
+            if($temp == $managerpin["PIN"])
+            {
+                $delOrderID = $_POST["delID"];
+                $delOrderQuery = "DELETE FROM orders WHERE ID = '$delOrderID'";
+                if($conn->query($delOrderQuery))
+                {
+                    echo "
+                    <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                        <strong>Deleted!</strong> Order ID: ".$delOrderID." has been deleted.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                    ";
+                    header("refresh: 1");
+                }
+                else
+                {
+                    echo "
+                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        <strong>Error!</strong> Contact the website administrator.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                    ";
+                }
+            }
+            else
+            {
+                echo "
+                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    <strong>Error!</strong> Manager PIN is wrong.
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>
+                ";
+            }
+        }
+    }
+
+    function getManagerPIN($PIN)
+    {
+        require 'connect.php';
+        $managerPINQuery = "SELECT * FROM managerpin WHERE ID = '$PIN'";
+        $result = mysqli_query($conn, $managerPINQuery);
+        $numRows = mysqli_num_rows($result);
+        if ($numRows == 1) 
+        {
+            $managerPIN = mysqli_fetch_assoc($result);
+            return $managerPIN;
+        }
+    }
+}
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     session_start();
     require '../components/main/connect.php';
     require '../components/main/functions.php';
@@ -93,30 +94,30 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="actionDropdown">
                                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
-                                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#delOrder_<?php echo $order["id"]?>"><i class="fa-solid fa-circle-minus"></i> Delete</button></li>
+                                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteProduct_<?php echo $order["ID"]?>"><i class="fa-solid fa-circle-minus"></i> Delete</button></li>
                                     </ul>
                                 </div>
                             </td>
                         </tr>
-                        <div class="modal fade" id="delOrder_<?php echo $order["ID"]?>" tabindex="-1" aria-labelledby="delOrderLabel_<?php echo $order["ID"]?>" aria-hidden="true">
+                        <div class="modal fade" id="deleteProduct_<?php echo $order["ID"];?>" tabindex="-1" aria-labelledby="deleteProductL_<?php echo $order["ID"];?>" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="delOrderLabel_<?php echo $order["ID"]?>">Delete Order — ID: <?php echo $order["ID"]?></h5>
+                                        <h5 class="modal-title" id="deleteProduct_<?php echo $order["ID"];?>">Delete Order - Order ID: <?php echo $order["ID"];?></h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <p>
-                                            Do you want to delete this order?
+                                            Are you sure that you want to delete this order?
                                             <form method="POST" action="waiter_orders">
-                                                <input class="form-control mt-2 mb-2" type="text" name="uID" id="uID" value="<?php echo $order["ID"]?>" readonly>
-                                                <input class="form-control mb-2" type="text" name="uComments" id="uComments" placeholder="Comments" required>
-                                            If yes, please submit it.
+                                                <input class="form-control mb-2 mt-2" value="<?php echo $order["ID"];?>" name="delID" type="text" readonly>
+                                                <input class="form-control mb-2 mt-2" name="mPIN" type="text" placeholder="Manager PIN">
+                                            If yes, please click on the red button.
                                         </p>
                                     </div>
                                     <div class="modal-footer">
-                                        <input type="submit" class="btn btn-success" value="Submit">
-                                            </form>
+                                        <input type="submit" name="submit" class="btn btn-danger" value="Delete">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -127,12 +128,8 @@
                     </tbody>
                 </table>
                 <?php
-                    if($_POST)
-                    {
-                        $commentUserID = $_POST["uID"];
-                        $comment = $_POST["uComments"];
-                        $staff->updateUserComments($commentUserID, $comment);
-                    }
+                    $wi = new Waiter();
+                    $wi->deleteOrder();
                 ?>
             </main>
         </div>
@@ -143,7 +140,7 @@
         {
             window.history.replaceState(null, null, window.location.href);
         }
-        document.title = "CairoGRND | QC Panel"
+        document.title = "CairoGRND | Waiter Panel"
     </script>
   </body>
 </html>

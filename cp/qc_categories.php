@@ -115,7 +115,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteCategory_<?php echo $category["ID"];?>">Delete Account - Product ID: <?php echo $category["ID"];?></h5>
+                                        <h5 class="modal-title" id="deleteCategory_<?php echo $category["ID"];?>">Delete Category - Product ID: <?php echo $category["ID"];?></h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">

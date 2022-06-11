@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2022 at 01:36 AM
+-- Generation Time: Jun 11, 2022 at 10:52 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -132,6 +132,24 @@ INSERT INTO `mainstock` (`MainID`, `MainName`, `MainPrice`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `managerpin`
+--
+
+CREATE TABLE `managerpin` (
+  `ID` int(11) NOT NULL,
+  `PIN` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `managerpin`
+--
+
+INSERT INTO `managerpin` (`ID`, `PIN`) VALUES
+(1, 3522);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -150,9 +168,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`ID`, `Customer_ID`, `OrderDetails`, `Total`, `Method`, `Processed`, `Date`) VALUES
-(1, 1, '\r\n            <b>Product:</b> Burger<br>\r\n            <b>Quantity:</b> 1<br><br>', 82, 1, 0, '2022-06-10 23:33:05'),
-(2, 2, '\r\n            <b>Product:</b>Pizza<br>\r\n            <b>Quantity:</b>1<br><br>', 60, 1, 0, '2022-06-10 23:23:38'),
-(4, 1, '\r\n            <b>Product:</b> Kebda<br>\r\n            <b>Quantity:</b> 5<br><br>', 100, 1, 0, '2022-06-10 23:30:36');
+(1, 1, '\r\n                                <b>Product:</b> Pasta<br>\r\n                                <b>Quantity:</b> 1<br><br>', 50, 1, 0, '2022-06-11 07:40:10'),
+(2, 1, '\r\n                                <b>Product:</b> Kebda<br>\r\n                                <b>Quantity:</b> 1<br><br>', 20, 1, 0, '2022-06-11 07:41:06'),
+(3, 1, '\r\n                                <b>Product:</b> Kebda<br>\r\n                                <b>Quantity:</b> 1<br><br>', 20, 1, 0, '2022-06-11 07:42:44');
 
 -- --------------------------------------------------------
 
@@ -269,6 +287,12 @@ ALTER TABLE `mainstock`
   ADD PRIMARY KEY (`MainID`);
 
 --
+-- Indexes for table `managerpin`
+--
+ALTER TABLE `managerpin`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -327,16 +351,22 @@ ALTER TABLE `mainstock`
   MODIFY `MainID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `managerpin`
+--
+ALTER TABLE `managerpin`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `saucestock`

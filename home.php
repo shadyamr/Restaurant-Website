@@ -191,7 +191,7 @@
                                                     <input type="hidden" name="price" value="<?php echo $products['price']; ?>">
                                                     <input type="submit" name="add_to_cart" style="margin-top: 5px;" class="mt-3 btn btn-primary" value="Add to Cart">
                                                 </form>
-                                                <a href="customize"> <button class="btn btn-secondary mt-2">Customize</button> </a>
+                                                <!--<a href="customize"> <button class="btn btn-secondary mt-2">Customize</button></a>-->
                                             </div>
                                         </div>
                                     </div>
