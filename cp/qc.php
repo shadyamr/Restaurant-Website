@@ -17,7 +17,7 @@
     $staff = new Staff();
     $staff->qcCheck();
 
-    $stats = new qcStats();
+    $stats = new Stats();
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,6 +65,12 @@
               <a class="nav-link" href="qc_accounts">
               <span class="align-text-bottom"></span>
               <i class="fa-solid fa-users"></i> Accounts
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="waiter">
+              <span class="align-text-bottom"></span>
+              <i class="fa-solid fa-circle-question"></i> Waiter Panel
               </a>
           </li>
           </ul>

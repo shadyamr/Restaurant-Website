@@ -1088,7 +1088,7 @@ class Category
     }
 }
 
-class qcStats
+class Stats
 {
     function countActivatedAccounts($conn)
     {
@@ -1133,6 +1133,30 @@ class qcStats
     function countUsers($conn)
     {
         $sql = "SELECT COUNT(id) FROM users";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countPendingOrders($conn)
+    {
+        $sql = "SELECT COUNT(ID) FROM orders WHERE Processed = 0";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countProcessedOrders($conn)
+    {
+        $sql = "SELECT COUNT(ID) FROM orders WHERE Processed = 1";
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_row($result);
+        return $rows[0];
+    }
+
+    function countCanceledOrders($conn)
+    {
+        $sql = "SELECT COUNT(ID) FROM orders WHERE Processed = 2";
         $result = mysqli_query($conn, $sql);
         $rows = mysqli_fetch_row($result);
         return $rows[0];

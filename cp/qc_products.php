@@ -68,6 +68,12 @@
                     <i class="fa-solid fa-users"></i> Accounts
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="waiter">
+                    <span class="align-text-bottom"></span>
+                    <i class="fa-solid fa-circle-question"></i> Waiter Panel
+                    </a>
+                </li>
                 </ul>
             </div>
         </nav>
