@@ -77,30 +77,29 @@
             <?php require_once "components/main/html_navbar.php";?>
             <div class="row g-5">
                 <div class="col-md-5 col-lg-4 order-md-last">
-                    <div class="card" style="width: 21.5rem;">
+                    <!--<div class="card" style="width: 21.5rem;">
                         <div class="card-header text-white bg-primary">
                             <strong>Filter By:</strong>
                         </div>
                         <ul class="list-group list-group-flush">
                             <?php
-                            $categories_query = "SELECT * FROM categories ORDER BY ID ASC";
+                            /*$categories_query = "SELECT * FROM categories ORDER BY ID ASC";
                             $categories_result = mysqli_query($conn, $categories_query);
                             if ($categories_result)
                             {
                                 if (mysqli_num_rows($categories_result) > 0)
                                 {
                                     while ($categories = mysqli_fetch_assoc($categories_result))
-                                    {
+                                    {*/
                             ?>
                                         <li class="list-group-item"><?php echo $categories['Category']; ?></li>
-                            <?php
+                            <?php /*
                                     }
                                 }
-                            } ?>
+                            } */?>
                         </ul>
-                    </div>
+                    </div>-->
                     <?php if (!empty($_SESSION['cart'])) : ?>
-                        <hr>
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span id="cart" class="text-primary">Your cart</span>
                         </h4>
@@ -145,7 +144,7 @@
                             <?php endif; ?>
                         </div>
                     <?php else : ?>
-                        <hr>
+                        <div class="mb-20"></div>
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-primary">Your cart</span>
                         </h4>
@@ -159,13 +158,13 @@
                     <?php endif; ?>
                 </div>
                 <div class="col-md-7 col-lg-8">
-                    <ul class="list-group list-group-horizontal">
+                    <!--<ul class="list-group list-group-horizontal">
                         <li class="list-group-item text-white bg-primary"><strong>Sort By:</strong></li>
                         <li class="list-group-item">Recommended</li>
                         <li class="list-group-item">Ratings</li>
                         <li class="list-group-item">Newest</li>
                         <li class="list-group-item">A to Z</li>
-                    </ul>
+                    </ul>-->
                     <h4 class="mt-3">Menu</h4>
                     <div class="row align-items-start">
                         <?php
