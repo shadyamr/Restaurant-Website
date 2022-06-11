@@ -91,8 +91,8 @@
                     </thead>
                     <tbody>
                         <?php
-                            $listUsers = "SELECT * FROM categories";
-                            $result = mysqli_query($conn, $listUsers);
+                            $listCat = "SELECT * FROM categories";
+                            $result = mysqli_query($conn, $listCat);
                             while($category = mysqli_fetch_array($result))
                             {
                         ?>

@@ -16,7 +16,7 @@
     $user = $userAcc->getUserData($_SESSION["email"]);
 
     $staff = new Staff();
-    $staff->qcCheck();
+    $staff->waiterCheck();
 
     $category = new Category();
 ?>
@@ -39,33 +39,21 @@
                 </li>
                 <hr class="custom_top_nav">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="qc">
+                    <a class="nav-link" aria-current="page" href="waiter">
                     <span class="align-text-bottom"></span>
                     <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="qc_activation">
-                    <span class="align-text-bottom"></span>
-                    <i class="fa-brands fa-creative-commons-sampling"></i> Activation
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="qc_products">
+                    <a class="nav-link active" href="waiter_products">
                     <span class="align-text-bottom"></span>
                     <i class="fa-solid fa-cart-shopping"></i> Products
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="qc_categories">
+                    <a class="nav-link" href="waiter_orders">
                     <span class="align-text-bottom"></span>
-                    <i class="fa-solid fa-list"></i> Categories
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="qc_accounts">
-                    <span class="align-text-bottom"></span>
-                    <i class="fa-solid fa-users"></i> Accounts
+                    <i class="fa-solid fa-users"></i> Orders
                     </a>
                 </li>
                 </ul>
@@ -95,8 +83,8 @@
                     </thead>
                     <tbody>
                         <?php
-                            $listProducts = "SELECT * FROM products";
-                            $result = mysqli_query($conn, $listProducts);
+                            $listUsers = "SELECT * FROM products";
+                            $result = mysqli_query($conn, $listUsers);
                             while($products = mysqli_fetch_array($result))
                             {
                         ?>
@@ -129,7 +117,7 @@
                                     <div class="modal-body">
                                         <p>
                                             Are you sure that you want to delete this product?
-                                            <form method="POST" action="qc_products">
+                                            <form method="POST" action="waiter_products">
                                                 <input class="form-control mb-2 mt-2" value="<?php echo $products["id"];?>" name="delID" type="text" readonly>
                                                 <input class="form-control mb-2" type="text" value="<?php echo $products["name"];?>" disabled>
                                             If yes, please click on the red button.
@@ -155,7 +143,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="qc_products" enctype="multipart/form-data">
+                                <form method="POST" action="waiter_products" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="productName" class="form-label">Name</label>
                                     <input type="text" class="form-control" name="productName" id="productName" required>
@@ -203,7 +191,7 @@
         {
             window.history.replaceState(null, null, window.location.href);
         }
-        document.title = "CairoGRND | QC Panel"
+        document.title = "CairoGRND | Waiter Panel"
     </script>
   </body>
 </html>

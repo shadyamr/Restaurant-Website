@@ -40,7 +40,7 @@
                                 <th scope="col">Details</th>
                                 <th scope="col">Total</th>
                                 <th scope="col">Payment Method</th>
-                                <th scope="col">Processed</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>

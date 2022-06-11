@@ -661,7 +661,7 @@ class Staff
     {
         $userAcc = new User();
         $user = $userAcc->getUserData($_SESSION["email"]);
-        if (!$user["Role"] == 1) 
+        if (!$user["Role"] == 1 || !$user["Role"] == 2) 
         {
             header("Location: ../home");
             echo "<script>
