@@ -17,29 +17,6 @@
     {
         header("Location: home");
     }
-    if($_POST)
-    {
-        foreach ($_SESSION['cart'] as $product_key => $products)
-        {
-            $total += $products['quantity'] * $products['price'];
-            $orderDetails = "
-            <b>Product:</b>". $products['name']."<br>
-            <b>Quantity:</b>". $products['quantity']."<br>
-            <b>Total:</b> EGP". number_format($products['quantity'] * $products['price'], 2)."<br><br>";
-        }
-            $orderTotal = $total;
-            $orderCustomer = $user["ID"];
-        $orderQuery = "INSERT INTO orders (ID, Customer_ID, OrderDetails, Total, Method)
-            VALUES (NULL, '$orderCustomer', '$orderDetails', '$orderTotal', 1)";
-        if($conn->query($orderQuery))
-        {
-            echo "success";
-        }
-        else
-        {
-            echo "shit";
-        }
-    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -52,6 +29,35 @@
         <?php include 'components/main/html_navbar.php'; ?>
         <div class="p-2 mb-4 rounded-3">
                 <div class="container-fluid py-4">
+                    <?php
+                        if(!empty($_POST))
+                        {
+                            foreach ($_SESSION['cart'] as $product_key => $products)
+                            {
+                                $orderDetails = "
+                                <b>Product:</b> ". $products['name']."<br>
+                                <b>Quantity:</b> ". $products['quantity']."<br><br>";
+                                $orderTotal = $products['quantity'] * $products['price'];
+                                $orderCustomer = $user["ID"];
+                            $orderQuery = "INSERT INTO orders (ID, Customer_ID, OrderDetails, Total, Method, Date)
+                                VALUES (NULL, '$orderCustomer', '$orderDetails', '$orderTotal', 1, now())";
+                                if($conn->query($orderQuery))
+                                {
+                                    $_SESSION["paid"] = true;
+                                    header("Location: payment-success");
+                                }
+                                else
+                                {
+                                    echo "
+                                    <div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                                        <strong>Error!</strong> Contact the website administrator
+                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                    </div>
+                                    ";
+                                }
+                            }
+                        }
+                    ?>
                     <div class="card-container" style="margin-left: 20px;">
                         <div class="front">
                             <div class="image">
@@ -85,7 +91,7 @@
 
                         </div>
 
-                        <form method="POST" action="pay_card">
+                        <form method="POST" action="pay-card">
                         <div class="inputBox">
                             <span>Card Number</span>
                             <input type="text" maxlength="16" class="card-number-input">
@@ -97,7 +103,7 @@
                         <div class="flexbox">
                             <div class="inputBox">
                                 <span>Expiration MM</span>
-                                <select name="" id="" class="month-input">
+                                <select id="" class="month-input">
                                     <option value="month" selected disabled>Month</option>
                                     <option value="01">01</option>
                                     <option value="02">02</option>
@@ -115,7 +121,7 @@
                             </div>
                             <div class="inputBox">
                                 <span>Expiration YY</span>
-                                <select name="" id="" class="year-input">
+                                <select id="" class="year-input">
                                     <option value="year" selected disabled>Year</option>
                                     <option value="2021">2021</option>
                                     <option value="2022">2022</option>
@@ -131,7 +137,7 @@
                             </div>
                             <div class="inputBox">
                                 <span>CVV</span>
-                                <input type="text" maxlength="3" class="cvv-input">
+                                <input type="text" name="cvv" maxlength="3" class="cvv-input">
                             </div>
                         </div>
                         <div class="d-grid gap-2">

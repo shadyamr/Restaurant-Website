@@ -250,6 +250,7 @@ class Login
                         ";
                 $_SESSION["loggedin"] = true;
                 $_SESSION["email"] = $user["Email"];
+                $_SESSION["paid"] = false;
                 $_SESSION['cart'] = array_values($_SESSION['cart']);
                 header("Location: home");
                 echo "<script>
@@ -1135,6 +1136,41 @@ class qcStats
         $result = mysqli_query($conn, $sql);
         $rows = mysqli_fetch_row($result);
         return $rows[0];
+    }
+}
+
+class Orders
+{
+    function defPay($pay)
+    {
+        switch($pay)
+        {
+            case 0:
+                echo "Cash";
+                break;
+            case 1:
+                echo "Card";
+                break;
+            case 2:
+                echo "Wallet";
+                break;
+        }
+    }
+
+    function defProcess($process)
+    {
+        switch($process)
+        {
+            case 0:
+                echo "<span class='badge rounded-pill bg-warning'>Pending</span>";
+                break;
+            case 1:
+                echo "<span class='badge rounded-pill bg-success'>Processed</span>";
+                break;
+            case 2:
+                echo "<span class='badge rounded-pill bg-danger'>Canceled</span>";
+                break;
+        }
     }
 }
 

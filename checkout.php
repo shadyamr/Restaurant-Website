@@ -69,11 +69,11 @@
                                                             <label class="form-check-label" for="inlineRadio1">Card</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="payment" id="cash" value="cash">
+                                                            <input class="form-check-input" type="radio" name="payment" id="cash" value="cash" disabled>
                                                             <label class="form-check-label" for="inlineRadio2">Cash</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="payment" id="wallet" value="wallet">
+                                                            <input class="form-check-input" type="radio" name="payment" id="wallet" value="wallet" disabled>
                                                             <label class="form-check-label" for="inlineRadio3">Wallet</label>
                                                         </div>
                                                         <div class="form-check form-check-inline float-end">
@@ -95,11 +95,11 @@
                                             $radio = $_POST["payment"];
                                             if($radio == "card")
                                             {
-                                                header("Location: pay_card");
+                                                header("Location: pay-card");
                                             }
                                             else if ($radio == "cash")
                                             {
-                                                echo("Second, eh?");
+                                                echo("Disabled");
                                             }
                                             else if($radio == "")
                                             {

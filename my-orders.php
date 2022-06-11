@@ -14,6 +14,8 @@
     $userAcc->logCheck_unregistered();
 
     $user = $userAcc->getUserData($_SESSION["email"]);
+
+    $od = new Orders();
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,8 +55,8 @@
                                 <th scope="row"><?php echo $order["ID"]; ?></th>
                                 <td><?php echo $order["OrderDetails"];?></td>
                                 <td>EGP <?php echo number_format($order["Total"], 2);?></td>
-                                <td><?php echo $order["Method"];?></td>
-                                <td><?php echo $order["Processed"];?></td>
+                                <td><?php echo $od->defPay($order["Method"]);?></td>
+                                <td><?php echo $od->defProcess($order["Processed"]);?></td>
                             </tr>
                             <?php
                                 }
