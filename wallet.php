@@ -39,8 +39,8 @@
                             <a class="nav-link bg-secondary text-light" href="#exampleModal" data-bs-toggle="modal" data-bs-target="#exampleModal">Redeem Credit Code</a>
                         </li>
                     </ul>
-                    <h4>Statement History</h4>
-                    <kbd>ss</kbd>
+                    <!--<h4>Statement History</h4>
+                    <kbd>ss</kbd>-->
                 </div>
             </div>
 
