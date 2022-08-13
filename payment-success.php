@@ -42,6 +42,7 @@
                             </div>
                             ";
                             $_SESSION["paid"] = false;
+                            unset($_SESSION["cart"]);
                             header("refresh: 3; url=my-orders");
                         }
                         else
