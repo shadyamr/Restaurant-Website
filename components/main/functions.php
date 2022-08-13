@@ -251,7 +251,7 @@ class Login
                 $_SESSION["loggedin"] = true;
                 $_SESSION["email"] = $user["Email"];
                 $_SESSION["paid"] = false;
-                $_SESSION['cart'] = array_values($_SESSION['cart']);
+                isset($_SESSION['cart']) == array_values(['cart']);
                 header("Location: home");
                 echo "<script>
                     window.location.replace('home');
